@@ -6,9 +6,7 @@ import { Check } from "@/icons"
 import Link from "next/link"
 import React from "react"
 
-type Props = {}
-
-export const PricingSection = (props: Props) => {
+export const PricingSection = () => {
     return (
         <div
             className="w-full pt-20 flex flex-col items-center gap-3"
