@@ -9,11 +9,10 @@ const DashboardSnippet = () => {
                 <Image
                     priority
                     src="/dashboard-snippet.png"
-                    className="opacity-[0.95]"
+                    className="opacity-[0.95] object-contain"
                     alt="snippet"
                     sizes="100vw"
                     fill
-                    objectFit="contain"
                 />
             </div>
         </div>

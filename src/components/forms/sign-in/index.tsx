@@ -6,9 +6,7 @@ import { GROUPLE_CONSTANTS } from "@/constants"
 import { useAuthSignIn } from "@/hooks/authentication"
 import React from "react"
 
-type Props = {}
-
-const SignInForm = (props: Props) => {
+const SignInForm = () => {
     const { isPending, onAuthenticateUser, register, errors } = useAuthSignIn()
     return (
         <form

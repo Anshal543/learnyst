@@ -7,8 +7,6 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import { Loader } from "@/components/global/loader"
 
-type Props = {}
-
 const OtpInput = dynamic(
     () =>
         import("@/components/global/otp-input").then(
@@ -17,7 +15,7 @@ const OtpInput = dynamic(
     { ssr: false },
 )
 
-const SignUpForm = (props: Props) => {
+const SignUpForm = () => {
     const {
         register,
         errors,
@@ -42,7 +40,7 @@ const SignUpForm = (props: Props) => {
                 GROUPLE_CONSTANTS.signUpForm.map((field) => (
                     <FormGenerator
                         {...field}
-                        key={field.name}
+                        key={field.id}
                         register={register}
                         errors={errors}
                     />
