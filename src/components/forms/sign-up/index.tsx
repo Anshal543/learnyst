@@ -51,6 +51,8 @@ const SignUpForm = () => {
                     <Loader loading={creating}>Sign Up with Email</Loader>
                 </Button>
             ) : (
+                <>
+                 <div id="clerk-captcha"></div>
                 <Button
                     type="button"
                     className="rounded-2xl"
@@ -60,9 +62,10 @@ const SignUpForm = () => {
                             getValues("password"),
                         )
                     }
-                >
+                    >
                     <Loader loading={false}>Generate Code</Loader>
                 </Button>
+                </>
             )}
         </form>
     )

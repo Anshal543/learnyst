@@ -21,7 +21,7 @@ const SignUpPage = () => {
                 </div>
                 <Separator orientation="horizontal" className="bg-themeGray" />
             </div>
-            <GoogleAuthButton method="signin" />
+            <GoogleAuthButton method="signup" />
         </>
     )
 }
