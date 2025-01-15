@@ -52,19 +52,19 @@ const SignUpForm = () => {
                 </Button>
             ) : (
                 <>
-                 <div id="clerk-captcha"></div>
-                <Button
-                    type="button"
-                    className="rounded-2xl"
-                    onClick={() =>
-                        onGenerateCode(
-                            getValues("email"),
-                            getValues("password"),
-                        )
-                    }
+                    <div id="clerk-captcha"></div>
+                    <Button
+                        type="button"
+                        className="rounded-2xl"
+                        onClick={() =>
+                            onGenerateCode(
+                                getValues("email"),
+                                getValues("password"),
+                            )
+                        }
                     >
-                    <Loader loading={false}>Generate Code</Loader>
-                </Button>
+                        <Loader loading={false}>Generate Code</Loader>
+                    </Button>
                 </>
             )}
         </form>
