@@ -1,6 +1,9 @@
 "use client"
 import { onCreateNewGroup } from "@/actions/groups"
-import { onGetStripeClientSecret, onTransferCommission } from "@/actions/payments"
+import {
+    onGetStripeClientSecret,
+    onTransferCommission,
+} from "@/actions/payments"
 import { CreateGroupSchema } from "@/components/forms/create-group/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
@@ -60,57 +63,58 @@ export const usePayments = (
 
     const { mutateAsync: createGroup, isPending } = useMutation({
         mutationFn: async (data: z.infer<typeof CreateGroupSchema>) => {
-          if (!stripe || !elements || !Intent) {
-            return null
-          }
-    
-          const { error, paymentIntent } = await stripe.confirmCardPayment(
-            Intent.secret!,
-            {
-              payment_method: {
-                card: elements.getElement(CardElement) as StripeCardElement,
-              },
-            },
-          )
-    
-          if (error) {
-            return toast("Error", {
-              description: "Oops! something went wrong, try again later",
-            })
-          }
-    
-          if (paymentIntent?.status === "succeeded") {
-            if (affiliate) {
-              await onTransferCommission(stripeId!)
+            if (!stripe || !elements || !Intent) {
+                return null
             }
-            const created = await onCreateNewGroup(userId, data)
-            if (created && created.status === 200) {
-              toast("Success", {
-                description: created.message,
-              })
-              router.push(
-                `/group/${created.data?.group[0].id}/channel/${created.data?.group[0].channel[0].id}`,
-              )
+            // console.log("test1");
+            const { error, paymentIntent } = await stripe.confirmCardPayment(
+                Intent.secret!,
+                {
+                    payment_method: {
+                        card: elements.getElement(
+                            CardElement,
+                        ) as StripeCardElement,
+                    },
+                },
+            )
+            // console.log("test2");
+            if (error) {
+                return toast("Error", {
+                    description: "Oops! something went wrong, try again later",
+                })
             }
-            if (created && created.status !== 200) {
-              reset()
-              return toast("Error", {
-                description: created.message,
-              })
+            console.log("test3");
+            if (paymentIntent?.status === "succeeded") {
+                if (affiliate) {
+                    await onTransferCommission(stripeId!)
+                }
+                const created = await onCreateNewGroup(userId, data)
+                if (created && created.status === 200) {
+                    toast("Success", {
+                        description: created.message,
+                    })
+                    router.push(
+                        `/group/${created.data?.group[0].id}/channel/${created.data?.group[0].channel[0].id}`,
+                    )
+                }
+                if (created && created.status !== 200) {
+                    reset()
+                    return toast("Error", {
+                        description: created.message,
+                    })
+                }
             }
-          }
         },
-      })
+    })
 
-  const onCreateGroup = handleSubmit(async (values) => createGroup(values))
+    const onCreateGroup = handleSubmit(async (values) => createGroup(values))
 
-  return {
-    onCreateGroup,
-    isPending,
-    register,
-    errors,
-    isCategory,
-    creatingIntent
-  }
-
+    return {
+        onCreateGroup,
+        isPending,
+        register,
+        errors,
+        isCategory,
+        creatingIntent,
+    }
 }

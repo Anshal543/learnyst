@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { usePayments } from "@/hooks/payment"
 import { ErrorMessage } from "@hookform/error-message"
 import { CardElement } from "@stripe/react-stripe-js"
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import React from "react"
 
@@ -13,6 +14,13 @@ type Props = {
     affiliate: boolean
     stripeId?: string
 }
+
+const GroupList = dynamic(
+    () => import("@/components/global/group-list-slider").then(
+        (component)=> component.GroupListSlider,
+    ),
+    { ssr: false }
+)
 
 const PaymentForm = ({ userId, affiliate, stripeId }: Props) => {
     const {
@@ -26,6 +34,12 @@ const PaymentForm = ({ userId, affiliate, stripeId }: Props) => {
     return (
         <Loader loading={creatingIntent}>
             <form className="pt-5" onSubmit={onCreateGroup}>
+                <GroupList 
+                selected={isCategory}
+                register={register}
+                label="Select Category"
+                slidesOffsetBefore={28}
+                />
                 <div className="px-7 mb-2">
                     <ErrorMessage
                         errors={errors}
