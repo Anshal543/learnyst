@@ -74,6 +74,7 @@ export const usePayments = (
                         card: elements.getElement(
                             CardElement,
                         ) as StripeCardElement,
+
                     },
                 },
             )
@@ -83,7 +84,7 @@ export const usePayments = (
                     description: "Oops! something went wrong, try again later",
                 })
             }
-            console.log("test3");
+            console.log("test3")
             if (paymentIntent?.status === "succeeded") {
                 if (affiliate) {
                     await onTransferCommission(stripeId!)

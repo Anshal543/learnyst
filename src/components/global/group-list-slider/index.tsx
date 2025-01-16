@@ -16,8 +16,6 @@ type Props = {
     route?: boolean
 } & SwiperProps
 
-
-
 export const GroupListSlider = ({
     overlay,
     label,
@@ -70,4 +68,3 @@ export const GroupListSlider = ({
         </Slider>
     )
 }
-
