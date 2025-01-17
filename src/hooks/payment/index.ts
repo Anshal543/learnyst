@@ -66,26 +66,23 @@ export const usePayments = (
             if (!stripe || !elements || !Intent) {
                 return null
             }
-            // console.log("test1");
-            const { error, paymentIntent } = await stripe.confirmCardPayment(
+            const { error, paymentIntent: _ } = await stripe.confirmCardPayment(
                 Intent.secret!,
                 {
                     payment_method: {
                         card: elements.getElement(
                             CardElement,
                         ) as StripeCardElement,
-
                     },
                 },
             )
-            // console.log("test2");
+            // if (error) {
+            //     return toast("Error", {
+            //         description: "Oops! something went wrong, try again later",
+            //     })
+            // }
+            // if (paymentIntent?.status === "succeeded") {
             if (error) {
-                return toast("Error", {
-                    description: "Oops! something went wrong, try again later",
-                })
-            }
-            console.log("test3")
-            if (paymentIntent?.status === "succeeded") {
                 if (affiliate) {
                     await onTransferCommission(stripeId!)
                 }
