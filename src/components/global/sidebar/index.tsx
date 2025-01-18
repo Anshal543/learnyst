@@ -1,14 +1,14 @@
 "use client"
+import { Button } from "@/components/ui/button"
 import { useGroupChatOnline } from "@/hooks/groups"
 import { useSideBar } from "@/hooks/navigation"
-import { cn } from "@/lib/utils"
-import React from "react"
-import { DropDown } from "../drop-down"
 import { CarotSort } from "@/icons"
+import { cn } from "@/lib/utils"
+import { Group, Plus } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Group } from "lucide-react"
-import Image from "next/image"
+import { v4 } from "uuid"
+import { DropDown } from "../drop-down"
+import SideBarMenu from "./menu"
 
 type Props = {
     groupid: string
@@ -61,8 +61,7 @@ const SideBar = ({ groupid, userid, mobile }: Props) => {
         useSideBar(groupid)
     useGroupChatOnline(userid)
     let href = ""
-    if(channels?.channels?.[0].id) {
-        // console.log(channels?.channels?.[0].id)
+    if (channels?.channels?.[0].id) {
         href = `/group/${groupid}/channel/${channels?.channels?.[0].id}`
     }
     return (
@@ -116,6 +115,38 @@ const SideBar = ({ groupid, userid, mobile }: Props) => {
                         ))}
                 </DropDown>
             )}
+            <div className="flex flex-col gap-y-5">
+                <div className="flex justify-between items-center">
+                    <p className="text-xs text-[#F7ECE9]">CHANNELS</p>
+                    {userid === groupInfo.group?.userId && (
+                        <Plus
+                            size={16}
+                            className={cn(
+                                "text-themeTextGray cursor-pointer",
+                                isPending && "opacity-70",
+                            )}
+                            {...(!isPending && {
+                                onClick: () =>
+                                    mutate({
+                                        id: v4(),
+                                        icon: "general",
+                                        name: "unnamed",
+                                        createdAt: new Date(),
+                                        groupId: groupid,
+                                    }),
+                            })}
+                        />
+                    )}
+                </div>
+                <SideBarMenu
+                    channels={channels?.channels!}
+                    optimisticChannel={variables}
+                    loading={isPending}
+                    groupid={groupid}
+                    groupUserId={groupInfo.group?.userId!}
+                    userId={userid}
+                />
+            </div>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { CreditCard, Explore, Home } from "@/icons"
+import { AffiliateDuoToneBlack, CreditCard, Explore, GlobeDuoToneBlack, Home, IDuotoneBlack, ZapDouToneBlack } from "@/icons"
 import { JSX } from "react"
 
 export type MenuProps = {
@@ -32,3 +32,37 @@ export const LANDING_PAGE_MENU: MenuProps[] = [
         path: "/explore",
     },
 ]
+
+export const SIDEBAR_SETTINGS_MENU: MenuProps[] = [
+    {
+      id: 0,
+      label: "General",
+      icon: <IDuotoneBlack />,
+      path: "",
+    },
+    {
+      id: 1,
+      label: "Subscriptions",
+      icon: <CreditCard />,
+      path: "subscriptions",
+    },
+    {
+      id: 2,
+      label: "Affiliates",
+      icon: <AffiliateDuoToneBlack />,
+      path: "affiliates",
+    },
+    {
+      id: 3,
+      label: "Domain Config",
+      icon: <GlobeDuoToneBlack />,
+      path: "domains",
+    },
+    {
+      id: 4,
+      label: "Integration",
+      icon: <ZapDouToneBlack />,
+      path: "integrations",
+      integration: true,
+    },
+  ]

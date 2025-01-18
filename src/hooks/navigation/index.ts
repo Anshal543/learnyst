@@ -45,6 +45,9 @@ export const useSideBar = (groupid: string) => {
                 name: data.name.toLowerCase(),
                 icon: data.icon,
             }),
+        onSuccess: () =>{
+                toast("Success",{description:"Channel created"})
+            },
         onSettled: async () => {
             return await client.invalidateQueries({
                 queryKey: ["group-channels"],
@@ -53,8 +56,8 @@ export const useSideBar = (groupid: string) => {
     })
 
     if (isPending)
-        toast("Success", {
-            description: "Channel created",
+        toast("Pending ", {
+            description: "Channel creation in progress",
         })
 
     if (isError)

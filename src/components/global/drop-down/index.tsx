@@ -11,7 +11,7 @@ type DropDownProps = {
     title: string
     trigger: JSX.Element
     children: React.ReactNode
-    ref?: React.RefObject<HTMLButtonElement>
+    ref?: React.RefObject<HTMLButtonElement | null>
 }
 
 export const DropDown = ({ trigger, title, children, ref }: DropDownProps) => {
