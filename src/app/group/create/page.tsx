@@ -7,52 +7,50 @@ import { redirect } from "next/navigation"
 import React from "react"
 
 const GroupCreatePage = async ({
-    searchParams,
+  searchParams,
 }: {
-    searchParams: Promise<{ [affiliate: string]: string }>
+  searchParams: Promise<{ [affiliate: string]: string }>
 }) => {
-    const user = await onAuthenticatedUser()
-    const { affiliate: searchParameter } = await searchParams
+  const user = await onAuthenticatedUser()
+  const { affiliate: searchParameter } = await searchParams
 
-    const affiliate = await onGetAffiliateInfo(searchParameter)
-    if (!user || !user.id) redirect("/sign-in")
+  const affiliate = await onGetAffiliateInfo(searchParameter)
+  if (!user || !user.id) redirect("/sign-in")
 
-    return (
-        <>
-            <div className="px-7 flex flex-col">
-                <h5 className="font-bold text-base text-themeTextWhite">
-                    Payment Method
-                </h5>
-                <p className="text-themeTextGray leading-tight">
-                    Free for 14 days, then $99/month. Cancel anytime.All
-                    features. Unlimited everything. No hidden fees.
-                </p>
-                {affiliate.status === 200 && (
-                    <div className="w-full mt-5 flex justify-center items-center gap-x-2 italic text-themeTextGray text-sm">
-                        You were referred by
-                        <Avatar>
-                            <AvatarImage
-                                src={
-                                    affiliate.user?.Group?.User.image as string
-                                }
-                                alt="User"
-                            />
-                            <AvatarFallback>
-                                <User />
-                            </AvatarFallback>
-                        </Avatar>
-                        {affiliate.user?.Group?.User.firstname}{" "}
-                        {affiliate.user?.Group?.User.lastname}
-                    </div>
-                )}
-            </div>
-            <CreateGroup
-                userId={user.id}
-                affiliate={affiliate.status === 200 ? true : false}
-                stripeId={affiliate.user?.Group?.User.stripeId || ""}
-            />
-        </>
-    )
+  return (
+    <>
+      <div className="px-7 flex flex-col">
+        <h5 className="font-bold text-base text-themeTextWhite">
+          Payment Method
+        </h5>
+        <p className="text-themeTextGray leading-tight">
+          Free for 14 days, then $99/month. Cancel anytime.All features.
+          Unlimited everything. No hidden fees.
+        </p>
+        {affiliate.status === 200 && (
+          <div className="w-full mt-5 flex justify-center items-center gap-x-2 italic text-themeTextGray text-sm">
+            You were referred by
+            <Avatar>
+              <AvatarImage
+                src={affiliate.user?.Group?.User.image as string}
+                alt="User"
+              />
+              <AvatarFallback>
+                <User />
+              </AvatarFallback>
+            </Avatar>
+            {affiliate.user?.Group?.User.firstname}{" "}
+            {affiliate.user?.Group?.User.lastname}
+          </div>
+        )}
+      </div>
+      <CreateGroup
+        userId={user.id}
+        affiliate={affiliate.status === 200 ? true : false}
+        stripeId={affiliate.user?.Group?.User.stripeId || ""}
+      />
+    </>
+  )
 }
 
 export default GroupCreatePage
