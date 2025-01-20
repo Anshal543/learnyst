@@ -2,9 +2,8 @@
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { useSelector, TypedUseSelectorHook } from "react-redux"
-import  onlineTrackingReducer  from "./slices/online-member-slice"
+import onlineTrackingReducer from "./slices/online-member-slice"
 import searchReducer from "./slices/search-slice"
-
 
 const rootReducer = combineReducers({
   searchReducer,
