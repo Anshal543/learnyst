@@ -1,6 +1,10 @@
 "use client"
 
-import { onGetGroupInfo, onSearchGroups, onUpDateGroupSettings } from "@/actions/groups"
+import {
+  onGetGroupInfo,
+  onSearchGroups,
+  onUpDateGroupSettings,
+} from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { onClearSearch, onSearch } from "@/redux/slices/search-slice"
@@ -118,7 +122,9 @@ export const useGroupSettings = (groupid: string) => {
       ? JSON.parse(data?.group?.jsonDescription as string)
       : undefined
 
-  const [onJsonDescription, setJsonDescription] = useState<JSONContent | undefined>(jsonContent)
+  const [onJsonDescription, setJsonDescription] = useState<
+    JSONContent | undefined
+  >(jsonContent)
   const [onDescription, setOnDescription] = useState<string | undefined>(
     data?.group?.description || undefined,
   )
@@ -273,5 +279,4 @@ export const useGroupSettings = (groupid: string) => {
     setOnDescription,
     onDescription,
   }
-
 }
