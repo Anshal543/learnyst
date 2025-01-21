@@ -117,10 +117,9 @@ export const useGroupSettings = (groupid: string) => {
     queryFn: () => onGetGroupInfo(groupid),
   })
 
-  const jsonContent =
-    data?.group?.jsonDescription !== null
-      ? JSON.parse(data?.group?.jsonDescription as string)
-      : undefined
+  const jsonContent = data?.group?.jsonDescription
+    ? JSON.parse(data?.group?.jsonDescription as string)
+    : undefined
 
   const [onJsonDescription, setJsonDescription] = useState<
     JSONContent | undefined
