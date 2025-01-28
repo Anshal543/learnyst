@@ -4,6 +4,7 @@ import React from "react"
 import GroupCard from "./group-card"
 import { NoResult } from "@/components/global/search/no-result"
 import InfiniteScrollObserver from "@/components/global/infinite-scroll"
+import PaginatedGroups from "./paginated-groups"
 
 type Props = {
   searching: boolean
@@ -28,8 +29,7 @@ export const SearchGroups = ({ data, query, searching }: Props) => {
           paginate={data.length}
           search
         >
-          nothing for now
-          {/* <PaginatedGroups /> */}
+          <PaginatedGroups />
         </InfiniteScrollObserver>
       )}
     </div>

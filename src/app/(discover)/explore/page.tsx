@@ -7,7 +7,6 @@ import {
 import React from "react"
 import ExplorePageContent from "./_components/explore-content"
 
-
 const ExplorePage = async () => {
   const query = new QueryClient()
 
