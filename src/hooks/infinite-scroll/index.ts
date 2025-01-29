@@ -13,11 +13,16 @@ export const useInfiniteScroll = (
   query?: string,
 ) => {
   const observerElement = useRef<HTMLDivElement>(null)
-  const dispatch:AppDispatch = useDispatch()
-  const { data } = useAppSelector((state)=>state.infiniteScrollReducer)
-  const {isFetched,refetch, isFetching,data:paginatedData} = useQuery({
+  const dispatch: AppDispatch = useDispatch()
+  const { data } = useAppSelector((state) => state.infiniteScrollReducer)
+  const {
+    isFetched,
+    refetch,
+    isFetching,
+    data: paginatedData,
+  } = useQuery({
     queryKey: ["infinite-scroll"],
-    queryFn: async()=>{
+    queryFn: async () => {
       if (search) {
         if (action === "GROUPS") {
           const response = await onSearchGroups(
@@ -42,8 +47,7 @@ export const useInfiniteScroll = (
       }
       return null
     },
-    enabled:false,
-    
+    enabled: false,
   })
 
   if (isFetched && paginatedData)

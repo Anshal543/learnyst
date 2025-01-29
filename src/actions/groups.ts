@@ -428,7 +428,6 @@ export const onGetExploreGroup = async (category: string, paginate: number) => {
   }
 }
 
-
 export const onGetPaginatedPosts = async (
   identifier: string,
   paginate: number,

@@ -25,13 +25,13 @@ const InfiniteScrollObserver = ({
     paginate,
     search,
   )
-  return(
+  return (
     <>
-    {children}
-    <div ref={observerElement}>
-      {isFetching && <Skeleton element={loading || "CARD"} />}
-    </div>
-  </>
+      {children}
+      <div ref={observerElement}>
+        {isFetching && <Skeleton element={loading || "CARD"} />}
+      </div>
+    </>
   )
 }
 
