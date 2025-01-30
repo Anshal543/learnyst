@@ -82,8 +82,8 @@ const ExploreSlider = ({ label, query, text }: Props) => {
             </SwiperSlide>
           )}
         </Slider>
-        </div>
-        )
+      </div>
+    )
   )
 }
 

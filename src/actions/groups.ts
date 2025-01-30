@@ -235,16 +235,15 @@ export const onGetGroupSubscriptions = async (groupid: string) => {
     return { status: 400 }
   }
 }
-// TODO: uncommit the NOT block
 export const onGetAllGroupMembers = async (groupid: string) => {
   try {
     const user = await onAuthenticatedUser()
     const members = await client.members.findMany({
       where: {
         groupId: groupid,
-        //   NOT: {
-        //     userId: user.id,
-        //   },
+          NOT: {
+            userId: user.id,
+          },
       },
       include: {
         User: true,
