@@ -241,9 +241,9 @@ export const onGetAllGroupMembers = async (groupid: string) => {
     const members = await client.members.findMany({
       where: {
         groupId: groupid,
-          NOT: {
-            userId: user.id,
-          },
+        NOT: {
+          userId: user.id,
+        },
       },
       include: {
         User: true,
@@ -478,5 +478,43 @@ export const onGetPaginatedPosts = async (
     return { status: 404 }
   } catch (error) {
     return { status: 400 }
+  }
+}
+
+export const onUpdateGroupGallery = async (
+  groupid: string,
+  content: string,
+) => {
+  try {
+    const mediaLimit = await client.group.findUnique({
+      where: {
+        id: groupid,
+      },
+      select: {
+        gallery: true,
+      },
+    })
+
+    if (mediaLimit && mediaLimit?.gallery.length < 6) {
+      await client.group.update({
+        where: {
+          id: groupid,
+        },
+        data: {
+          gallery: {
+            push: content,
+          },
+        },
+      })
+      revalidatePath(`/about/${groupid}`)
+      return { status: 200 }
+    }
+
+    return {
+      status: 400,
+      message: "Looks like your gallery has the maximum media allowed",
+    }
+  } catch (error) {
+    return { status: 400, message: "Looks like something went wrong" }
   }
 }

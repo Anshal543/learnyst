@@ -4,6 +4,7 @@ import {
   onGetExploreGroup,
   onGetGroupInfo,
   onSearchGroups,
+  onUpdateGroupGallery,
   onUpDateGroupSettings,
 } from "@/actions/groups"
 import { supabaseClient, validateURLString } from "@/lib/utils"
@@ -29,6 +30,7 @@ import {
   onClearList,
   onInfiniteScroll,
 } from "@/redux/slices/infinite-scroll-slice"
+import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
 
 export const useGroupChatOnline = (userid: string) => {
   const dispatch: AppDispatch = useDispatch()
@@ -347,12 +349,12 @@ export const useGroupInfo = () => {
 }
 
 export const useGroupAbout = (
-  description:string|null,
-  jsonDescription:string|null,
-  htmlDescription:string|null,
-  currentMedia:string,
-  groupid:string,
-) =>{
+  description: string | null,
+  jsonDescription: string | null,
+  htmlDescription: string | null,
+  currentMedia: string,
+  groupid: string,
+) => {
   const editor = useRef<HTMLFormElement | null>(null)
   const mediaType = validateURLString(currentMedia)
   const [activeMedia, setActiveMedia] = useState<
@@ -370,4 +372,194 @@ export const useGroupAbout = (
       : { ...mediaType },
   )
 
+  const jsonContent =
+    jsonDescription !== null ? JSON.parse(jsonDescription as string) : undefined
+
+  const [onJsonDescription, setJsonDescription] = useState<
+    JSONContent | undefined
+  >(jsonContent)
+
+  const [onDescription, setOnDescription] = useState<string | undefined>(
+    description || undefined,
+  )
+
+  const [onHtmlDescription, setOnHtmlDescription] = useState<
+    string | undefined
+  >(htmlDescription || undefined)
+
+  const [onEditDescription, setOnEditDescription] = useState<boolean>(false)
+
+  const {
+    setValue,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<z.infer<typeof GroupSettingsSchema>>({
+    resolver: zodResolver(GroupSettingsSchema),
+  })
+  const onSetDescriptions = () => {
+    const JsonContent = JSON.stringify(onJsonDescription)
+    setValue("jsondescription", JsonContent)
+    setValue("description", onDescription)
+    setValue("htmldescription", onHtmlDescription)
+  }
+
+  useEffect(() => {
+    onSetDescriptions()
+    return () => {
+      onSetDescriptions()
+    }
+  }, [onJsonDescription, onDescription])
+
+  const onEditTextEditor = (event: Event) => {
+    if (editor.current) {
+      !editor.current.contains(event.target as Node | null)
+        ? setOnEditDescription(false)
+        : setOnEditDescription(true)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", onEditTextEditor, false)
+    return () => {
+      document.removeEventListener("click", onEditTextEditor, false)
+    }
+  }, [])
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["about-description"],
+    mutationFn: async (values: z.infer<typeof GroupSettingsSchema>) => {
+      if (values.description) {
+        const updated = await onUpDateGroupSettings(
+          groupid,
+          "DESCRIPTION",
+          values.description,
+          `/about/${groupid}`,
+        )
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description: "Oops! looks like your form is empty",
+          })
+        }
+      }
+      if (values.jsondescription) {
+        const updated = await onUpDateGroupSettings(
+          groupid,
+          "JSONDESCRIPTION",
+          values.jsondescription,
+          `/about/${groupid}`,
+        )
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description: "Oops! looks like your form is empty",
+          })
+        }
+      }
+      if (values.htmldescription) {
+        const updated = await onUpDateGroupSettings(
+          groupid,
+          "HTMLDESCRIPTION",
+          values.htmldescription,
+          `/about/${groupid}`,
+        )
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description: "Oops! looks like your form is empty",
+          })
+        }
+      }
+      if (
+        !values.description &&
+        !values.jsondescription &&
+        !values.htmldescription
+      ) {
+        return toast("Error", {
+          description: "Oops! looks like your form is empty",
+        })
+      }
+      return toast("Success", {
+        description: "Group description updated",
+      })
+    },
+  })
+  const onSetActiveMedia = (media: { url: string | undefined; type: string }) =>
+    setActiveMedia(media)
+
+  const onUpdateDescription = handleSubmit(async (values) => {
+    mutate(values)
+  })
+
+  return {
+    setOnDescription,
+    onDescription,
+    setJsonDescription,
+    onJsonDescription,
+    errors,
+    onEditDescription,
+    editor,
+    activeMedia,
+    onSetActiveMedia,
+    setOnHtmlDescription,
+    onUpdateDescription,
+    isPending,
+  }
+}
+
+
+export const useMediaGallery = (groupid: string) => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<z.infer<typeof UpdateGallerySchema>>({
+    resolver: zodResolver(UpdateGallerySchema),
+  })
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["update-gallery"],
+    mutationFn: async (values: z.infer<typeof UpdateGallerySchema>) => {
+      if (values.videourl) {
+        const update = await onUpdateGroupGallery(groupid, values.videourl)
+        if (update && update.status !== 200) {
+          return toast("Error", {
+            description: update?.message,
+          })
+        }
+      }
+      if (values.image && values.image.length) {
+        let count = 0
+        while (count < values.image.length) {
+          const uploaded = await upload.uploadFile(values.image[count])
+          if (uploaded) {
+            const update = await onUpdateGroupGallery(groupid, uploaded.uuid)
+            if (update?.status !== 200) {
+              toast("Error", {
+                description: update?.message,
+              })
+              break
+            }
+          } else {
+            toast("Error", {
+              description: "Looks like something went wrong!",
+            })
+            break
+          }
+          console.log("increment")
+          count++
+        }
+      }
+
+      return toast("Success", {
+        description: "Group gallery updated",
+      })
+    },
+  })
+
+  const onUpdateGallery = handleSubmit(async (values) => mutate(values))
+
+  return {
+    register,
+    errors,
+    onUpdateGallery,
+    isPending,
+  }
 }

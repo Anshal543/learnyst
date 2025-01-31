@@ -41,7 +41,6 @@ export const onTransferCommission = async (destination: string) => {
   }
 }
 
-
 export const onGetActiveSubscription = async (groupId: string) => {
   try {
     const subscription = await client.subscription.findFirst({
