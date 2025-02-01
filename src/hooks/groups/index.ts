@@ -504,7 +504,6 @@ export const useGroupAbout = (
   }
 }
 
-
 export const useMediaGallery = (groupid: string) => {
   const {
     register,

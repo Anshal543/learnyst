@@ -82,11 +82,11 @@ const AboutGroup = ({ groupid, userid }: Props) => {
         </div>
       )}
       <MediaGallery
-           groupid={groupid}
-           gallery={group.gallery}
-           onActive={onSetActiveMedia}
-           userid={userid}
-           groupUserid={group.userId}
+        groupid={groupid}
+        gallery={group.gallery}
+        onActive={onSetActiveMedia}
+        userid={userid}
+        groupUserid={group.userId}
       />
       {userid !== group.userId ? (
         <HtmlParser html={group.htmlDescription || "<></>"} />
