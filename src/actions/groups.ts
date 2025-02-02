@@ -493,7 +493,7 @@ export const onUpdateGroupGallery = async (
       select: {
         gallery: true,
       },
-      })
+    })
 
     if (mediaLimit && mediaLimit?.gallery.length < 6) {
       await client.group.update({
@@ -541,4 +541,3 @@ export const onJoinGroup = async (groupid: string) => {
     return { status: 404 }
   }
 }
-

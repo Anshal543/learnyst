@@ -12,8 +12,7 @@ type Props = {
 }
 
 const GroupSideWidget = ({ groupid, light, userid }: Props) => {
-    const { group } = useGroupInfo()
-    
+  const { group } = useGroupInfo()
 
   return (
     <Card
@@ -31,19 +30,17 @@ const GroupSideWidget = ({ groupid, light, userid }: Props) => {
         <h2 className="font-bold text-lg">{group.name}</h2>
         <p className="text-sm text-themeTextGray">
           {group.description && truncateString(group.description)}
-            </p>
+        </p>
       </div>
       <Separator orientation="horizontal" className="bg-themeGray" />
       {groupid && (
-          <JoinButton
-            groupid={groupid}
-            owner={group.userId === userid ? true : false}
-          />
-        )}
+        <JoinButton
+          groupid={groupid}
+          owner={group.userId === userid ? true : false}
+        />
+      )}
     </Card>
-
   )
 }
-
 
 export default GroupSideWidget

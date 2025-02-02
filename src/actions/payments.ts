@@ -58,7 +58,6 @@ export const onGetActiveSubscription = async (groupId: string) => {
   }
 }
 
-
 export const onGetGroupSubscriptionPaymentIntent = async (groupid: string) => {
   console.log("running")
   try {
@@ -97,5 +96,106 @@ export const onGetGroupSubscriptionPaymentIntent = async (groupid: string) => {
     }
   } catch (error) {
     return { status: 400, message: "Failed to load form" }
+  }
+}
+
+export const onCreateNewGroupSubscription = async (
+  groupid: string,
+  price: string,
+) => {
+  try {
+    const subscription = await client.group.update({
+      where: {
+        id: groupid,
+      },
+      data: {
+        subscription: {
+          create: {
+            price: parseInt(price),
+          },
+        },
+      },
+    })
+
+    if (subscription) {
+      return { status: 200, message: "Subscription created" }
+    }
+  } catch (error) {
+    return { status: 400, message: "Oops something went wrong" }
+  }
+}
+
+export const onActivateSubscription = async (id: string) => {
+  try {
+    const status = await client.subscription.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        active: true,
+      },
+    })
+    if (status) {
+      if (status.active) {
+        return { status: 200, message: "Plan already active" }
+      }
+      if (!status.active) {
+        const current = await client.subscription.findFirst({
+          where: {
+            active: true,
+          },
+          select: {
+            id: true,
+          },
+        })
+        if (current && current.id) {
+          const deactivate = await client.subscription.update({
+            where: {
+              id: current.id,
+            },
+            data: {
+              active: false,
+            },
+          })
+
+          if (deactivate) {
+            const activateNew = await client.subscription.update({
+              where: {
+                id,
+              },
+              data: {
+                active: true,
+              },
+            })
+
+            if (activateNew) {
+              return {
+                status: 200,
+                message: "New plan activated",
+              }
+            }
+          }
+        } else {
+          const activateNew = await client.subscription.update({
+            where: {
+              id,
+            },
+            data: {
+              active: true,
+            },
+          })
+
+          if (activateNew) {
+            return {
+              status: 200,
+              message: "New plan activated",
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error)
+    return { status: 400, message: "Oops something went wrong" }
   }
 }
