@@ -24,10 +24,10 @@ type Props = {
 }
 
 const GroupLayout = async ({ children, params }: Props) => {
-  const query = new QueryClient()
-  const user = await onAuthenticatedUser()
-  if (!user.id) redirect("/sign-in")
   const { groupid } = await params
+  const user = await onAuthenticatedUser()
+  const query = new QueryClient()
+  if (!user.id) redirect("/sign-in")
   // group info
   await query.prefetchQuery({
     queryKey: ["group-info"],
