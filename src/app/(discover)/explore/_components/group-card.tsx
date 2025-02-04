@@ -29,7 +29,8 @@ const GroupCard = ({
     <Link href={`/about/${id}`}>
       <Card className="bg-themeBlack border-themeGray rounded-xl overflow-hidden">
         <img
-          src={preview || `https://ucarecdn.com/${thumbnail}/`}
+          src={preview || `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${thumbnail}`}
+          // src={preview || `https://ucarecdn.com/${thumbnail}/`}
           alt="thumbnail"
           className="w-full opacity-70 h-56"
         />

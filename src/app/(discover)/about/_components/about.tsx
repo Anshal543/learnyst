@@ -55,7 +55,8 @@ const AboutGroup = ({ groupid, userid }: Props) => {
           <div className="img--overlay absolute h-2/6 bottom-0 w-full z-50" />
           {activeMedia?.type === "IMAGE" ? (
             <img
-              src={`https://ucarecdn.com/${activeMedia.url}/`}
+              // src={`https://ucarecdn.com/${activeMedia.url}/`}
+                src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${activeMedia.url}`}
               alt="group-img"
               className="w-full aspect-video z-20 rounded-t-xl"
             />

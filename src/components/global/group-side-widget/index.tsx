@@ -22,7 +22,8 @@ const GroupSideWidget = ({ groupid, light, userid }: Props) => {
       )}
     >
       <img
-        src={`https://ucarecdn.com/${group.thumbnail}/`}
+        src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${group.thumbnail}`}
+        //  src={preview || `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${thumbnail}`}
         alt="thumbnail"
         className="w-full aspect-video"
       />

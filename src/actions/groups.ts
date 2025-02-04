@@ -235,6 +235,7 @@ export const onGetGroupSubscriptions = async (groupid: string) => {
     return { status: 400 }
   }
 }
+
 export const onGetAllGroupMembers = async (groupid: string) => {
   try {
     const user = await onAuthenticatedUser()

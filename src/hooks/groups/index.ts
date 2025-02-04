@@ -31,6 +31,7 @@ import {
   onInfiniteScroll,
 } from "@/redux/slices/infinite-scroll-slice"
 import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
+import { uploadImage } from "@/lib/cloudinary"
 
 export const useGroupChatOnline = (userid: string) => {
   const dispatch: AppDispatch = useDispatch()
@@ -186,11 +187,11 @@ export const useGroupSettings = (groupid: string) => {
     mutationKey: ["group-settings"],
     mutationFn: async (values: z.infer<typeof GroupSettingsSchema>) => {
       if (values.thumbnail && values.thumbnail.length > 0) {
-        const uploaded = await upload.uploadFile(values.thumbnail[0])
+        const uploaded = await uploadImage(values.thumbnail[0])
         const updated = await onUpDateGroupSettings(
           groupid,
           "IMAGE",
-          uploaded.uuid,
+          uploaded,
           `/group/${groupid}/settings`,
         )
         if (updated.status !== 200) {
@@ -201,11 +202,11 @@ export const useGroupSettings = (groupid: string) => {
       }
       if (values.icon && values.icon.length > 0) {
         console.log("icon")
-        const uploaded = await upload.uploadFile(values.icon[0])
+        const uploaded = await uploadImage(values.icon[0])
         const updated = await onUpDateGroupSettings(
           groupid,
           "ICON",
-          uploaded.uuid,
+          uploaded,
           `/group/${groupid}/settings`,
         )
         if (updated.status !== 200) {
@@ -527,9 +528,9 @@ export const useMediaGallery = (groupid: string) => {
       if (values.image && values.image.length) {
         let count = 0
         while (count < values.image.length) {
-          const uploaded = await upload.uploadFile(values.image[count])
+          const uploaded = await uploadImage(values.image[count])
           if (uploaded) {
-            const update = await onUpdateGroupGallery(groupid, uploaded.uuid)
+            const update = await onUpdateGroupGallery(groupid, uploaded)
             if (update?.status !== 200) {
               toast("Error", {
                 description: update?.message,

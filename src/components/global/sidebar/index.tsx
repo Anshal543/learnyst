@@ -78,7 +78,8 @@ const SideBar = ({ groupid, userid, mobile }: Props) => {
             <div className="w-full flex items-center justify-between text-themeTextGray md:border-[1px] border-themeGray p-3 rounded-xl">
               <div className="flex gap-x-3 items-center">
                 <img
-                  src={`https://ucarecdn.com/${groupInfo.group?.icon as string}/`}
+                  // src={`https://ucarecdn.com/${groupInfo.group?.icon as string}/`}
+                  src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${groupInfo.group?.icon as string}`}
                   alt="icon"
                   // width={20}
                   // height={20}

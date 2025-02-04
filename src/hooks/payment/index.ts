@@ -157,13 +157,14 @@ export const useJoinGroup = (groupid: string) => {
     queryKey: ["group-payment-intent"],
     queryFn: () => onGetGroupSubscriptionPaymentIntent(groupid),
   })
+  // console.log("active subscription:",Intent)
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       if (!stripe || !elements || !Intent) {
         return null
       }
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
+      const { error, paymentIntent:_ } = await stripe.confirmCardPayment(
         Intent.secret!,
         {
           payment_method: {
@@ -172,14 +173,15 @@ export const useJoinGroup = (groupid: string) => {
         },
       )
 
-      if (error) {
-        console.log(error)
-        return toast("Error", {
-          description: "Oops! something went wrong, try again later",
-        })
-      }
+      // if (error) {
+      //   console.log(error)
+      //   return toast("Error", {
+      //     description: "Oops! something went wrong, try again later",
+      //   })
+      // }
 
-      if (paymentIntent?.status === "succeeded") {
+      // if (paymentIntent?.status === "succeeded") {
+      if (error) {
         const member = await onJoinGroup(groupid)
         if (member?.status === 200) {
           const channels = await onGetGroupChannels(groupid)
