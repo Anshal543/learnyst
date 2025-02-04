@@ -1,6 +1,5 @@
 import { onAuthenticatedUser } from "@/actions/auth"
 import { onGetUserGroups } from "@/actions/groups"
-
 import GlassSheet from "@/components/global/glass-sheet"
 import { UserWidget } from "@/components/global/user-widget"
 import { Button } from "@/components/ui/button"

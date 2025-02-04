@@ -35,7 +35,7 @@ const MediaGallery = ({
               }
               key={key}
               // src={`https://ucarecdn.com/${gal}/`}
-                src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${gal}`}
+              src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${gal}`}
               alt="gallery-img"
               className="aspect-video w-36 rounded-xl cursor-pointer opacity-70"
             />

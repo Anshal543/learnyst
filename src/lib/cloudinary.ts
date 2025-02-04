@@ -34,4 +34,3 @@ export const uploadImage = async (file: File) => {
   // console.log("image info",result.url);
   return result.public_id
 }
-

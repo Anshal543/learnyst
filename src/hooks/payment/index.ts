@@ -164,7 +164,7 @@ export const useJoinGroup = (groupid: string) => {
       if (!stripe || !elements || !Intent) {
         return null
       }
-      const { error, paymentIntent:_ } = await stripe.confirmCardPayment(
+      const { error, paymentIntent: _ } = await stripe.confirmCardPayment(
         Intent.secret!,
         {
           payment_method: {

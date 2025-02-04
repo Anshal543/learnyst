@@ -69,7 +69,6 @@ const GroupSettingsForm = ({ groupId }: Props) => {
                 `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${data?.group?.icon}`) ||
               "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
             }
-           
             alt="icon"
           />
           <Label
