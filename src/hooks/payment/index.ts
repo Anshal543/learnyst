@@ -157,7 +157,6 @@ export const useJoinGroup = (groupid: string) => {
     queryKey: ["group-payment-intent"],
     queryFn: () => onGetGroupSubscriptionPaymentIntent(groupid),
   })
-  // console.log("active subscription:",Intent)
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {

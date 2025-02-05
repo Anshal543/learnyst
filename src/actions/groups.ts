@@ -204,7 +204,6 @@ export const onGetGroupChannels = async (groupid: string) => {
         createdAt: "asc",
       },
     })
-
     return { status: 200, channels }
   } catch (error) {
     return { status: 400, message: "Oops! something went wrong" }

@@ -1,9 +1,32 @@
+import { onGetGroupChannels } from "@/actions/groups"
+import { IGroupInfo } from "@/components/global/sidebar"
 import { createClient } from "@supabase/supabase-js"
+import { useQuery } from "@tanstack/react-query"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+interface IChannels {
+  status: number
+  channels: {
+    id: string
+    name: string
+    icon: string
+    createdAt: Date
+    groupId: string | null
+  }[]
+}
+
+interface IAboutGroupInfo {
+  status: number
+  groupOwner: boolean
+  group: {
+    id: string
+    active: boolean
+  }
 }
 
 export const supabaseClient = createClient(
@@ -36,4 +59,33 @@ export const validateURLString = (url: string) => {
       type: "IMAGE",
     }
   }
+}
+export const useDynamicPaths = () => {
+  const { data: groupInfo } = useQuery({
+    queryKey: ["group-info"],
+  }) as { data: IGroupInfo }
+
+  const { data: channels } = useQuery({
+    queryKey: ["group-channels"],
+  }) as { data: IChannels }
+  const { data: aboutGroupInfo } = useQuery({
+    queryKey: ["about-group-info"],
+  }) as { data: IAboutGroupInfo }
+
+  const getDynamicPath = (label: string) => {
+    switch (label) {
+      case "Group":
+        if (groupInfo && channels) {
+          return `/group/${groupInfo?.group?.id}/channel/${channels.channels[0].id}`
+        }
+
+      case "About":
+        if (aboutGroupInfo) {
+          return `/about/${aboutGroupInfo.group.id}`
+        }
+      default:
+        return ""
+    }
+  }
+  return { getDynamicPath }
 }
