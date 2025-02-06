@@ -11,6 +11,8 @@ import {
 import React from "react"
 import CreateNewPost from "./_components/create-post"
 import Menu from "../../_components/group-navbar"
+import GroupSideWidget from "@/components/global/group-side-widget"
+import { PostFeed } from "./_components/post-feed"
 
 type Props = {
   params: Promise<{ channelid: string; groupid: string }>
@@ -47,6 +49,10 @@ const GroupChannelPage = async ({ params }: Props) => {
             channelid={channelid}
             username={user?.firstName!}
           />
+           <PostFeed channelid={channelid} userid={authUser.id!} />
+        </div>
+        <div className="col-span-1 hidden lg:inline relative py-5">
+          <GroupSideWidget light />
         </div>
       </div>
     </HydrationBoundary>

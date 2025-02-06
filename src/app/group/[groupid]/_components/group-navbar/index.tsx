@@ -13,7 +13,7 @@ type MenuProps = {
 
 const Menu = ({ orientation }: MenuProps) => {
   const { section, onSetSection } = useNavigation()
-  const {getDynamicPath} = useDynamicPaths()
+  const { getDynamicPath } = useDynamicPaths()
   const pathname = usePathname()
   switch (orientation) {
     case "desktop":
