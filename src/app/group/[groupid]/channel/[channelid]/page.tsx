@@ -49,7 +49,7 @@ const GroupChannelPage = async ({ params }: Props) => {
             channelid={channelid}
             username={user?.firstName!}
           />
-           <PostFeed channelid={channelid} userid={authUser.id!} />
+          <PostFeed channelid={channelid} userid={authUser.id!} />
         </div>
         <div className="col-span-1 hidden lg:inline relative py-5">
           <GroupSideWidget light />
