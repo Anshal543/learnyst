@@ -5,6 +5,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query"
+import CourseList from "./_components/course-list"
 
 type Props = {
   params: Promise<{ groupid: string }>
@@ -21,7 +22,7 @@ const CoursesPage = async ({ params }: Props) => {
     <HydrationBoundary state={dehydrate(client)}>
       <div className="container grid lg:grid-cols-2 2xl:grid-cols-3 py-10 gap-5">
         <CourseCreate groupid={groupid} />
-        {/* <CourseList groupid={params.groupid} /> */}
+        <CourseList groupid={groupid} />
       </div>
     </HydrationBoundary>
   )
