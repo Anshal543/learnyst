@@ -44,7 +44,10 @@ export const PostContent = ({ channelid }: PostContentProps) => {
         htmlContent={onHtmlDescription}
         setHtmlContent={setOnHtmlDescription}
       />
-      <Button type="submit" className="self-end rounded-2xl bg-themeTextGray flex gap-x-2">
+      <Button
+        type="submit"
+        className="self-end rounded-2xl bg-themeTextGray flex gap-x-2"
+      >
         <Upload />
         Create
       </Button>

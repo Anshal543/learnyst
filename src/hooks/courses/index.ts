@@ -10,50 +10,49 @@ import { toast } from "sonner"
 import { v4 } from "uuid"
 import { z } from "zod"
 
-
 export const useCreateCourse = (groupid: string) => {
-const [onPrivacy, setOnPrivacy] = useState<string | undefined>("open")
-const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const [onPrivacy, setOnPrivacy] = useState<string | undefined>("open")
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
 
-const {
+  const {
     handleSubmit,
     register,
     watch,
     setValue,
     formState: { errors },
-} = useForm<z.infer<typeof CreateCourseSchema>>({
+  } = useForm<z.infer<typeof CreateCourseSchema>>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
-    privacy: "open",
-    published: false,
+      privacy: "open",
+      published: false,
     },
-})
+  })
 
-useEffect(() => {
+  useEffect(() => {
     const privacy = watch(({ privacy }) => setOnPrivacy(privacy))
     return () => privacy.unsubscribe()
-}, [watch])
+  }, [watch])
 
-const client = useQueryClient()
+  const client = useQueryClient()
 
-const { data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["group-info"],
     queryFn: () => onGetGroupInfo(groupid),
-})
+  })
 
-const { mutate, isPending, variables } = useMutation({
+  const { mutate, isPending, variables } = useMutation({
     mutationKey: ["create-course-mutation"],
     mutationFn: async (data: {
-    id: string
-    name: string
-    image: FileList
-    description: string
-    createdAt: Date
-    privacy: string
-    published: boolean
+      id: string
+      name: string
+      image: FileList
+      description: string
+      createdAt: Date
+      privacy: string
+      published: boolean
     }) => {
-    const uploaded = await uploadImage(data.image[0])
-    const course = await onCreateGroupCourse(
+      const uploaded = await uploadImage(data.image[0])
+      const course = await onCreateGroupCourse(
         groupid,
         data.name,
         uploaded,
@@ -61,34 +60,34 @@ const { mutate, isPending, variables } = useMutation({
         data.id,
         data.privacy,
         data.published,
-    )
-    return course
+      )
+      return course
     },
     onMutate: () => {
-    buttonRef.current?.click()
+      buttonRef.current?.click()
     },
     onSuccess: (data) => {
-    return toast(data.status !== 200 ? "Error" : "Success", {
+      return toast(data.status !== 200 ? "Error" : "Success", {
         description: data.message,
-    })
+      })
     },
     onSettled: async () => {
-    return await client.invalidateQueries({
+      return await client.invalidateQueries({
         queryKey: ["group-courses"],
-    })
+      })
     },
-})
+  })
 
-const onCreateCourse = handleSubmit(async (values) =>
+  const onCreateCourse = handleSubmit(async (values) =>
     mutate({
-    id: v4(),
-    createdAt: new Date(),
-    image: values.image,
-    ...values,
+      id: v4(),
+      createdAt: new Date(),
+      image: values.image,
+      ...values,
     }),
-)
+  )
 
-return {
+  return {
     onCreateCourse,
     register,
     errors,
@@ -98,5 +97,5 @@ return {
     onPrivacy,
     setValue,
     data,
-}
+  }
 }

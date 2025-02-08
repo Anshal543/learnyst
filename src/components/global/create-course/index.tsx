@@ -1,7 +1,7 @@
+"use client"
 import { useCreateCourse } from "@/hooks/courses"
 import { GlassModal } from "../glass-modal"
 import { Card, CardContent } from "@/components/ui/card"
-import { BadgePlus } from "@/icons"
 import { FormGenerator } from "../form-generator"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,7 @@ import { ErrorMessage } from "@hookform/error-message"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { DialogClose } from "@/components/ui/dialog"
+import { BadgePlus } from "lucide-react"
 
 type Props = {
   groupid: string
@@ -29,7 +30,7 @@ const CourseCreate = ({ groupid }: Props) => {
   } = useCreateCourse(groupid)
   if (data?.groupOwner) {
     return (
-        <GlassModal
+      <GlassModal
         title="Create a new course"
         description="Add a new form for your community"
         trigger={
@@ -42,8 +43,8 @@ const CourseCreate = ({ groupid }: Props) => {
             </Card>
           </span>
         }
-        >
-          <form onSubmit={onCreateCourse} className="flex flex-col gap-y-5 mt-5">
+      >
+        <form onSubmit={onCreateCourse} className="flex flex-col gap-y-5 mt-5">
           <FormGenerator
             register={register}
             errors={errors}
@@ -180,7 +181,7 @@ const CourseCreate = ({ groupid }: Props) => {
             </Button>
           </DialogClose>
         </form>
-        </GlassModal>
+      </GlassModal>
     )
   }
 }

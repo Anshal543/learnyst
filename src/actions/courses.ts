@@ -1,69 +1,68 @@
 "use server"
 import { client } from "@/lib/prisma"
 
-
 export const onGetGroupCourses = async (groupid: string) => {
-try {
+  try {
     const courses = await client.course.findMany({
-    where: {
+      where: {
         groupId: groupid,
-    },
-    take: 8,
-    orderBy: {
+      },
+      take: 8,
+      orderBy: {
         createdAt: "desc",
-    },
+      },
     })
 
     if (courses && courses.length > 0) {
-    return { status: 200, courses }
+      return { status: 200, courses }
     }
 
     return {
-    status: 404,
-    message: "No courses found",
+      status: 404,
+      message: "No courses found",
     }
-} catch (error) {
+  } catch (error) {
     return {
-    status: 400,
-    message: "Oops! something went wrong",
+      status: 400,
+      message: "Oops! something went wrong",
     }
-}
+  }
 }
 
 export const onCreateGroupCourse = async (
-groupid: string,
-name: string,
-image: string,
-description: string,
-courseid: string,
-privacy: string,
-published: boolean,
+  groupid: string,
+  name: string,
+  image: string,
+  description: string,
+  courseid: string,
+  privacy: string,
+  published: boolean,
 ) => {
-try {
+  try {
     const course = await client.group.update({
-    where: {
+      where: {
         id: groupid,
-    },
-    data: {
+      },
+      data: {
         courses: {
-        create: {
+          create: {
             id: courseid,
             name,
             thumbnail: image,
             description,
             privacy,
             published,
+          },
         },
-        },
-    },
+      },
     })
 
     if (course) {
-    return { status: 200, message: "Course successfully created" }
+      return { status: 200, message: "Course successfully created" }
     }
 
     return { status: 404, message: "Group not found" }
-} catch (error) {
+  } catch (error) {
     return { status: 400, message: "Oops! something went wrong" }
-}
+  }
 }
