@@ -7,8 +7,8 @@ type Props = {
 }
 
 const CourseModuleSection = async ({ params }: Props) => {
-  const { sectionid, groupid } = await params
   const user = await onAuthenticatedUser()
+  const { sectionid, groupid } = await params
   const group = await onGetGroupInfo(groupid)
 
   return (

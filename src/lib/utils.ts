@@ -1,4 +1,3 @@
-import { onGetGroupChannels } from "@/actions/groups"
 import { IGroupInfo } from "@/components/global/sidebar"
 import { createClient } from "@supabase/supabase-js"
 import { useQuery } from "@tanstack/react-query"
@@ -82,6 +81,10 @@ export const useDynamicPaths = () => {
       case "About":
         if (aboutGroupInfo) {
           return `/about/${aboutGroupInfo.group.id}`
+        }
+      case "Courses":
+        if (groupInfo && groupInfo?.group?.id) {
+          return `/group/${groupInfo?.group?.id}/courses`
         }
       default:
         return ""

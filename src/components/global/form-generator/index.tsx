@@ -1,8 +1,8 @@
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ErrorMessage } from "@hookform/error-message"
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 type FormGeneratorProps = {
   type?: "text" | "email" | "number" | "password"
@@ -33,7 +33,7 @@ export const FormGenerator = ({
         <Label className="flex flex-col gap-2" htmlFor={`input-${label}`}>
           {label && label}
           <Input
-            id={`input-${label}`}
+            id={`input-${name}`}
             type={type}
             placeholder={placeholder}
             className="bg-themeBlack border-themeGray text-themeTextGray"

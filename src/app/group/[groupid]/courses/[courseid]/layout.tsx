@@ -8,7 +8,7 @@ import React from "react"
 import { CreateCourseModule } from "../_components/create-module"
 import CourseModuleList from "../_components/module-list"
 
-type CourseeLayoutProps = {
+type CourseLayoutProps = {
   params: Promise<{
     courseid: string
     groupid: string
@@ -16,7 +16,7 @@ type CourseeLayoutProps = {
   children: React.ReactNode
 }
 
-const CourseeLayout = async ({ params, children }: CourseeLayoutProps) => {
+const CourseLayout = async ({ params, children }: CourseLayoutProps) => {
   const { courseid, groupid } = await params
   const client = new QueryClient()
   await client.prefetchQuery({
@@ -39,4 +39,4 @@ const CourseeLayout = async ({ params, children }: CourseeLayoutProps) => {
   )
 }
 
-export default CourseeLayout
+export default CourseLayout
