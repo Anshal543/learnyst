@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { loadStripe, StripeCardElement } from "@stripe/stripe-js"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -250,4 +251,26 @@ export const useAllSubscriptions = (groupid: string) => {
   })
 
   return { data, mutate }
+}
+
+export const useStripeConnect = (groupid: string) => {
+  const [onStripeAccountPending, setOnStripeAccountPending] =
+    useState<boolean>(false)
+
+  const onStripeConnect = async () => {
+    try {
+      setOnStripeAccountPending(true)
+      const account = await axios.get(`/api/stripe/connect?groupid=${groupid}`)
+      if (account) {
+        setOnStripeAccountPending(false)
+        if (account) {
+          window.location.href = account.data.url
+        }
+      }
+    } catch (error) {
+      setOnStripeAccountPending(false)
+      console.log(error)
+    }
+  }
+  return { onStripeConnect, onStripeAccountPending }
 }

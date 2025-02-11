@@ -2,10 +2,10 @@
 
 import { CreateGroupSchema } from "@/components/forms/create-group/schema"
 import { client } from "@/lib/prisma"
+import { revalidatePath } from "next/cache"
 import { v4 as uuidv4 } from "uuid"
 import { z } from "zod"
 import { onAuthenticatedUser } from "./auth"
-import { revalidatePath } from "next/cache"
 
 export const onGetAffiliateInfo = async (id: string) => {
   try {
@@ -539,5 +539,40 @@ export const onJoinGroup = async (groupid: string) => {
     }
   } catch (error) {
     return { status: 404 }
+  }
+}
+
+export const onGetAffiliateLink = async (groupid: string) => {
+  try {
+    const affiliate = await client.affiliate.findUnique({
+      where: {
+        groupId: groupid,
+      },
+      select: {
+        id: true,
+      },
+    })
+
+    return { status: 200, affiliate }
+  } catch (error) {
+    return { status: 400, message: "Oops! soomething went wrong" }
+  }
+}
+
+export const onVerifyAffilateLink = async (id: string) => {
+  try {
+    const link = await client.affiliate.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (link) {
+      return { status: 200 }
+    }
+
+    return { status: 404 }
+  } catch (error) {
+    return { status: 400 }
   }
 }

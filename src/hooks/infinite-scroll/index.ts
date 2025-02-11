@@ -50,8 +50,14 @@ export const useInfiniteScroll = (
     enabled: false,
   })
 
-  if (isFetched && paginatedData)
-    dispatch(onInfiniteScroll({ data: paginatedData }))
+  // if (isFetched && paginatedData)
+  //   dispatch(onInfiniteScroll({ data: paginatedData }))
+
+  useEffect(() => {
+    if (isFetched && paginatedData) {
+      dispatch(onInfiniteScroll({ data: paginatedData }))
+    }
+  }, [isFetched, paginatedData, dispatch])
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {

@@ -36,8 +36,10 @@ export const SimpleModal = ({
             <div className="flex justify-center gap-3 ">
               <div className="w-12 h-12 relative">
                 <Image
-                  src={`https://ucarecdn.com/2c9bd4ab-1f00-41df-bad2-df668f65a232/`}
-                  fill
+                  src={`/corinna.png`}
+                  // src={`https://ucarecdn.com/2c9bd4ab-1f00-41df-bad2-df668f65a232/`}
+                  height={200}
+                  width={200}
                   alt="Corinna"
                 />
               </div>
@@ -47,8 +49,11 @@ export const SimpleModal = ({
               </div>
               <div className="w-12 h-12 relative">
                 <Image
-                  src={`https://ucarecdn.com/${logo}/`}
+                  src={`/stripe.png`}
+                  // src={`https://ucarecdn.com/${logo}/`}
+                  // src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${logo}`}
                   fill
+                  sizes="20"
                   alt="Stripe"
                 />
               </div>
