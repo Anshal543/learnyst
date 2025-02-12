@@ -12,7 +12,6 @@ export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams
     const groupid = searchParams.get("groupid")
-    console.log("🟣 enter get request")
 
     const account = await stripe.accounts.create({
       type: "standard",

@@ -576,3 +576,76 @@ export const onVerifyAffilateLink = async (id: string) => {
     return { status: 400 }
   }
 }
+
+export const onGetUserFromMembership = async (membershipid: string) => {
+  try {
+    const member = await client.members.findUnique({
+      where: {
+        id: membershipid,
+      },
+      select: {
+        User: true,
+      },
+    })
+
+    if (member) {
+      return { status: 200, member }
+    }
+  } catch (error) {
+    return { status: 400 }
+  }
+}
+
+export const onGetAllUserMessages = async (recieverId: string) => {
+  try {
+    const sender = await onAuthenticatedUser()
+    const messages = await client.message.findMany({
+      where: {
+        senderid: {
+          in: [sender.id!, recieverId],
+        },
+        recieverId: {
+          in: [sender.id!, recieverId],
+        },
+      },
+    })
+
+    if (messages && messages.length > 0) {
+      return { status: 200, messages }
+    }
+
+    return { status: 404 }
+  } catch (error) {
+    return { status: 400, message: "Oops something went wrong" }
+  }
+}
+
+export const onSendMessage = async (
+  recieverid: string,
+  messageid: string,
+  message: string,
+) => {
+  try {
+    const user = await onAuthenticatedUser()
+    const newMessage = await client.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        message: {
+          create: {
+            id: messageid,
+            recieverId: recieverid,
+            message,
+          },
+        },
+      },
+    })
+
+    if (newMessage) {
+      return { status: 200 }
+    }
+  } catch (error) {
+    return { status: 400 }
+  }
+}

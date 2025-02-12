@@ -1,15 +1,17 @@
 "use client"
 
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import { useSelector, TypedUseSelectorHook } from "react-redux"
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import { TypedUseSelectorHook, useSelector } from "react-redux"
+import chatReducer from "./slices/chats-slices"
+import infiniteScrollReducer from "./slices/infinite-scroll-slice"
 import onlineTrackingReducer from "./slices/online-member-slice"
 import searchReducer from "./slices/search-slice"
-import infiniteScrollReducer from "./slices/infinite-scroll-slice"
 
 const rootReducer = combineReducers({
   searchReducer,
   onlineTrackingReducer,
   infiniteScrollReducer,
+  chatReducer,
 })
 
 export const store = configureStore({

@@ -1,13 +1,25 @@
 "use client"
 
 import {
+  onGetAllGroupMembers,
+  onGetAllUserMessages,
   onGetExploreGroup,
   onGetGroupInfo,
   onSearchGroups,
+  onSendMessage,
   onUpdateGroupGallery,
   onUpDateGroupSettings,
 } from "@/actions/groups"
+import { GroupSettingsSchema } from "@/components/forms/group-settings/schema"
+import { SendNewMessageSchema } from "@/components/forms/huddle/schema"
+import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
+import { uploadImage } from "@/lib/cloudinary"
 import { supabaseClient, validateURLString } from "@/lib/utils"
+import { onChat } from "@/redux/slices/chats-slices"
+import {
+  onClearList,
+  onInfiniteScroll,
+} from "@/redux/slices/infinite-scroll-slice"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import {
   GroupStateProps,
@@ -15,23 +27,16 @@ import {
   onSearch,
 } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
-import { JSONContent } from "novel"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { GroupSettingsSchema } from "@/components/forms/group-settings/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { upload } from "@/lib/uploadcare"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { usePathname, useRouter } from "next/navigation"
+import { JSONContent } from "novel"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { useDispatch } from "react-redux"
 import { toast } from "sonner"
-import { useRouter } from "next/navigation"
-import {
-  onClearList,
-  onInfiniteScroll,
-} from "@/redux/slices/infinite-scroll-slice"
-import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
-import { uploadImage } from "@/lib/cloudinary"
+import { v4 } from "uuid"
+import { z } from "zod"
 
 export const useGroupChatOnline = (userid: string) => {
   const dispatch: AppDispatch = useDispatch()
@@ -562,4 +567,107 @@ export const useMediaGallery = (groupid: string) => {
     onUpdateGallery,
     isPending,
   }
+}
+
+export const useGroupChat = (groupid: string) => {
+  const { data } = useQuery({
+    queryKey: ["member-chats"],
+    queryFn: () => onGetAllGroupMembers(groupid),
+  })
+
+  const pathname = usePathname()
+
+  return { data, pathname }
+}
+
+export const useChatWindow = (recieverid: string) => {
+  const dispatch: AppDispatch = useDispatch()
+  const { data, isFetched } = useQuery({
+    queryKey: ["user-messages"],
+    queryFn: () => onGetAllUserMessages(recieverid),
+  })
+
+  const messageWindowRef = useRef<HTMLDivElement | null>(null)
+
+  const onScrollToBottom = () => {
+    messageWindowRef.current?.scroll({
+      top: messageWindowRef.current.scrollHeight,
+      left: 0,
+      behavior: "smooth",
+    })
+  }
+
+  useEffect(() => {
+    supabaseClient
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "Message",
+        },
+        async (payload) => {
+          console.log("🟢 payload ", payload)
+          dispatch(
+            onChat({
+              chat: [
+                ...[
+                  payload.new as {
+                    id: string
+                    message: string
+                    createdAt: Date
+                    senderid: string | null
+                    recieverId: string | null
+                  },
+                ],
+              ],
+            }),
+          )
+        },
+      )
+      .subscribe()
+    return () => {
+      supabaseClient.channel("table-db-changes").unsubscribe()
+    }
+  }, [])
+
+  useEffect(() => {
+    onScrollToBottom()
+  }, [messageWindowRef])
+
+  // const dispatch: AppDispatch = useDispatch()
+
+  // if (isFetched && data?.messages) dispatch(onChat({ chat: data.messages }))
+  useEffect(() => {
+    if (isFetched && data?.messages) {
+      dispatch(onChat({ chat: data.messages }))
+    }
+  }, [isFetched, data])
+
+  return { messageWindowRef }
+}
+
+export const useSendMessage = (recieverId: string) => {
+  const { register, reset, handleSubmit } = useForm<
+    z.infer<typeof SendNewMessageSchema>
+  >({
+    resolver: zodResolver(SendNewMessageSchema),
+  })
+
+  const { mutate } = useMutation({
+    mutationKey: ["send-new-message"],
+    mutationFn: (data: { messageid: string; message: string }) =>
+      onSendMessage(recieverId, data.messageid, data.message),
+    onMutate: () => reset(),
+    onSuccess: () => {
+      return
+    },
+  })
+
+  const onSendNewMessage = handleSubmit(async (values) =>
+    mutate({ messageid: v4(), message: values.message }),
+  )
+
+  return { onSendNewMessage, register }
 }
