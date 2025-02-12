@@ -2,16 +2,15 @@ import { onAuthenticatedUser } from "@/actions/auth"
 import { onGetChannelInfo } from "@/actions/channels"
 import { onGetGroupInfo } from "@/actions/groups"
 import { LeaderBoardCard } from "@/app/group/_components/leaderboard"
+import GroupSideWidget from "@/components/global/group-side-widget"
 import { currentUser } from "@clerk/nextjs/server"
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query"
-import React from "react"
-import CreateNewPost from "./_components/create-post"
 import Menu from "../../_components/group-navbar"
-import GroupSideWidget from "@/components/global/group-side-widget"
+import CreateNewPost from "./_components/create-post"
 import { PostFeed } from "./_components/post-feed"
 
 type Props = {
@@ -21,10 +20,10 @@ type Props = {
 // TODO: complete grouple channel page
 
 const GroupChannelPage = async ({ params }: Props) => {
-  const client = new QueryClient()
-  const user = await currentUser()
-  const authUser = await onAuthenticatedUser()
   const { channelid, groupid } = await params
+  const authUser = await onAuthenticatedUser()
+  const user = await currentUser()
+  const client = new QueryClient()
 
   await client.prefetchQuery({
     queryKey: ["channel-info"],

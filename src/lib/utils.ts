@@ -92,3 +92,11 @@ export const useDynamicPaths = () => {
   }
   return { getDynamicPath }
 }
+
+export function getPath(pathname: string, memberid: string) {
+  const path = pathname.split("/").pop()
+  if (path == "messages") {
+    return `${pathname}/${memberid}`
+  }
+  return `${pathname.split("/").slice(0, -1).join("/")}/${memberid}`
+}

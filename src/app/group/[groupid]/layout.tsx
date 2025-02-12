@@ -14,8 +14,8 @@ import {
 } from "@tanstack/react-query"
 import { redirect } from "next/navigation"
 import React from "react"
-import { Navbar } from "../_components/navbar"
 import MobileNav from "../_components/mobile-nav"
+import { Navbar } from "../_components/navbar"
 
 type Props = {
   children: React.ReactNode
@@ -49,7 +49,7 @@ const GroupLayout = async ({ children, params }: Props) => {
     queryKey: ["group-subscriptions"],
     queryFn: () => onGetGroupSubscriptions(groupid),
   })
-  // member-chats
+  // member-chats+
   await query.prefetchQuery({
     queryKey: ["member-chats"],
     queryFn: () => onGetAllGroupMembers(groupid),

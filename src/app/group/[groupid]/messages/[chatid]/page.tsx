@@ -20,11 +20,12 @@ const MemberChatPage = async ({
   const member = await onGetUserFromMembership(chatid)
 
   await query.prefetchQuery({
-    queryKey: ["user-messages"],
-    queryFn: () => onGetAllUserMessages(chatid),
+    queryKey: ["user-messages", member?.member?.User?.id!],
+    queryFn: () => onGetAllUserMessages(member?.member?.User?.id!),
   })
 
   const user = await onAuthenticatedUser()
+  // console.log("🟣 chatid", chatid)
 
   return (
     <HydrationBoundary state={dehydrate(query)}>

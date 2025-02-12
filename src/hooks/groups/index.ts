@@ -28,7 +28,7 @@ import {
 } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
 import { JSONContent } from "novel"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
@@ -583,7 +583,7 @@ export const useGroupChat = (groupid: string) => {
 export const useChatWindow = (recieverid: string) => {
   const dispatch: AppDispatch = useDispatch()
   const { data, isFetched } = useQuery({
-    queryKey: ["user-messages"],
+    queryKey: ["user-messages", recieverid],
     queryFn: () => onGetAllUserMessages(recieverid),
   })
 
@@ -608,7 +608,7 @@ export const useChatWindow = (recieverid: string) => {
           table: "Message",
         },
         async (payload) => {
-          console.log("🟢 payload ", payload)
+          // console.log("🟢 payload ", payload)
           dispatch(
             onChat({
               chat: [
@@ -636,9 +636,6 @@ export const useChatWindow = (recieverid: string) => {
     onScrollToBottom()
   }, [messageWindowRef])
 
-  // const dispatch: AppDispatch = useDispatch()
-
-  // if (isFetched && data?.messages) dispatch(onChat({ chat: data.messages }))
   useEffect(() => {
     if (isFetched && data?.messages) {
       dispatch(onChat({ chat: data.messages }))
@@ -649,6 +646,7 @@ export const useChatWindow = (recieverid: string) => {
 }
 
 export const useSendMessage = (recieverId: string) => {
+  const client = useQueryClient()
   const { register, reset, handleSubmit } = useForm<
     z.infer<typeof SendNewMessageSchema>
   >({
@@ -656,12 +654,14 @@ export const useSendMessage = (recieverId: string) => {
   })
 
   const { mutate } = useMutation({
-    mutationKey: ["send-new-message"],
+    // mutationKey: ["send-new-message"],
     mutationFn: (data: { messageid: string; message: string }) =>
       onSendMessage(recieverId, data.messageid, data.message),
     onMutate: () => reset(),
-    onSuccess: () => {
-      return
+    onSuccess: async () => {
+      return await client.invalidateQueries({
+        queryKey: ["user-messages", recieverId],
+      })
     },
   })
 

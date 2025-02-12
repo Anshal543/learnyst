@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useGroupChat } from "@/hooks/groups"
+import { getPath } from "@/lib/utils"
 
 import { useAppSelector } from "@/redux/store"
 import { User } from "lucide-react"
@@ -21,7 +22,8 @@ export const GroupChatMenu = ({ groupid }: GroupChatMenuProps) => {
       {data?.status === 200 &&
         data.members?.map((member) => (
           <Link
-            href={`${pathname}/${member.id}`}
+            href={`${getPath(pathname, member.id)}`}
+            // href={`${pathname.split("/").slice(0, -1).join("/")}/${member.id}`}
             key={member.id}
             className="flex gap-x-2 items-center p-5 hover:bg-themeGray"
           >
