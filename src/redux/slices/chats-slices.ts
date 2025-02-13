@@ -1,32 +1,49 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
+export type ChatMessage = {
+  id: string
+  message: string
+  createdAt: Date
+  senderid: string | null
+  recieverId: string | null
+}
+
 type InitialStateProps = {
-  chat: {
-    id: string
-    message: string
-    createdAt: Date
-    senderid: string | null
-    recieverId: string | null
-  }[]
+  chat: Record<string, ChatMessage[]>
 }
 
 const InitialState: InitialStateProps = {
-  chat: [],
+  chat: {},
 }
 
 export const onChats = createSlice({
   name: "chats",
   initialState: InitialState,
   reducers: {
-    onChat: (state, action: PayloadAction<InitialStateProps>) => {
-      const messages = state.chat.find((data: any) =>
-        action.payload.chat.find((payload: any) => data.id === payload.id),
+    onChat: (
+      state,
+      action: PayloadAction<{ chat: ChatMessage[]; activeChatId: string }>,
+    ) => {
+      const { chat, activeChatId } = action.payload
+      const newMessages = chat.filter(
+        (msg) =>
+          !(state.chat[activeChatId] || []).some(
+            (existingMsg) => existingMsg.id === msg.id,
+          ),
       )
 
-      if (!messages) state.chat = [...state.chat, ...action.payload.chat]
+      if (newMessages.length > 0) {
+        state.chat[activeChatId] = [
+          ...(state.chat[activeChatId] || []),
+          ...newMessages,
+        ]
+      }
+    },
+    clearChat: (state, action: PayloadAction<{ chatId: string }>) => {
+      state.chat[action.payload.chatId] = []
     },
   },
 })
 
-export const { onChat } = onChats.actions
+export const { onChat, clearChat } = onChats.actions
 export default onChats.reducer

@@ -10,8 +10,10 @@ type ChatWindowProps = {
 }
 
 export const ChatWindow = ({ recieverid, userid }: ChatWindowProps) => {
-  const { messageWindowRef } = useChatWindow(recieverid)
-  const { chat } = useAppSelector((state) => state.chatReducer)
+  const { messageWindowRef } = useChatWindow(recieverid, userid)
+  const chat = useAppSelector(
+    (state) => state.chatReducer.chat[recieverid] || [],
+  ) // Get only the active chat messages
 
   return (
     <div

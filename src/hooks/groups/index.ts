@@ -15,7 +15,7 @@ import { SendNewMessageSchema } from "@/components/forms/huddle/schema"
 import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
 import { uploadImage } from "@/lib/cloudinary"
 import { supabaseClient, validateURLString } from "@/lib/utils"
-import { onChat } from "@/redux/slices/chats-slices"
+import { ChatMessage, clearChat, onChat } from "@/redux/slices/chats-slices"
 import {
   onClearList,
   onInfiniteScroll,
@@ -580,14 +580,14 @@ export const useGroupChat = (groupid: string) => {
   return { data, pathname }
 }
 
-export const useChatWindow = (recieverid: string) => {
+export const useChatWindow = (recieverid: string, senderid: string) => {
   const dispatch: AppDispatch = useDispatch()
+  const messageWindowRef = useRef<HTMLDivElement | null>(null)
+
   const { data, isFetched } = useQuery({
     queryKey: ["user-messages", recieverid],
     queryFn: () => onGetAllUserMessages(recieverid),
   })
-
-  const messageWindowRef = useRef<HTMLDivElement | null>(null)
 
   const onScrollToBottom = () => {
     messageWindowRef.current?.scroll({
@@ -598,7 +598,11 @@ export const useChatWindow = (recieverid: string) => {
   }
 
   useEffect(() => {
-    supabaseClient
+    dispatch(clearChat({ chatId: recieverid }))
+  }, [recieverid])
+
+  useEffect(() => {
+    const channel = supabaseClient
       .channel("table-db-changes")
       .on(
         "postgres_changes",
@@ -608,29 +612,29 @@ export const useChatWindow = (recieverid: string) => {
           table: "Message",
         },
         async (payload) => {
-          // console.log("🟢 payload ", payload)
-          dispatch(
-            onChat({
-              chat: [
-                ...[
-                  payload.new as {
-                    id: string
-                    message: string
-                    createdAt: Date
-                    senderid: string | null
-                    recieverId: string | null
-                  },
-                ],
-              ],
-            }),
-          )
+          const newMessage = payload.new as ChatMessage
+
+          if (
+            (newMessage.senderid === recieverid &&
+              newMessage.recieverId === senderid) ||
+            (newMessage.senderid === senderid &&
+              newMessage.recieverId === recieverid)
+          ) {
+            dispatch(
+              onChat({
+                chat: [newMessage],
+                activeChatId: recieverid,
+              }),
+            )
+          }
         },
       )
       .subscribe()
+
     return () => {
-      supabaseClient.channel("table-db-changes").unsubscribe()
+      channel.unsubscribe()
     }
-  }, [])
+  }, [recieverid])
 
   useEffect(() => {
     onScrollToBottom()
@@ -638,7 +642,7 @@ export const useChatWindow = (recieverid: string) => {
 
   useEffect(() => {
     if (isFetched && data?.messages) {
-      dispatch(onChat({ chat: data.messages }))
+      dispatch(onChat({ chat: data.messages, activeChatId: recieverid }))
     }
   }, [isFetched, data])
 
@@ -654,7 +658,7 @@ export const useSendMessage = (recieverId: string) => {
   })
 
   const { mutate } = useMutation({
-    // mutationKey: ["send-new-message"],
+    mutationKey: ["send-new-message"],
     mutationFn: (data: { messageid: string; message: string }) =>
       onSendMessage(recieverId, data.messageid, data.message),
     onMutate: () => reset(),
