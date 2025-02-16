@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
   try {
-    const searchParams = req.nextUrl.searchParams
-    const host = searchParams.get("host")
+    const host = req.nextUrl.host
+
     if (!host)
       return NextResponse.json({
         status: 404,
