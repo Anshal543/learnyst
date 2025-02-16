@@ -17,7 +17,10 @@ export async function GET(req: NextRequest) {
       })
       return NextResponse.json({ status: 200, domain: data })
     }
-    return { status: 404 }
+    return NextResponse.json({
+      status: 404,
+      message: "No domain found for this group.",
+    })
   } catch (error) {
     return new NextResponse(
       "An error occurred when calling the Domain API of a group:",
