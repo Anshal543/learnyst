@@ -5,8 +5,7 @@ const isProtectedRoute = createRouteMatcher(["/group(.*)"])
 
 export default clerkMiddleware(async (auth, req) => {
   const baseHost = "localhost:3000"
-  // const host = req.headers.get("host")
-  const host = "anshal.codes"
+  const host = req.headers.get("host")
   const reqPath = req.nextUrl.pathname
   const origin = req.nextUrl.origin
   if (isProtectedRoute(req)) await auth.protect()

@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
         status: 404,
         message: "No domain found for this group.",
       })
+
     const data = await client.group.findFirst({
       where: {
         domain: host,
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
       },
     })
     if (data) {
-      return NextResponse.json({ status: 200, domain: data })
+      return NextResponse.json({ status: 200, domain: data.domain })
     }
     return NextResponse.json({
       status: 404,
