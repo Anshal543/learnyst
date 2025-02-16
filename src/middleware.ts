@@ -9,7 +9,7 @@ export default clerkMiddleware(async (auth, req) => {
   const reqPath = req.nextUrl.pathname
   const origin = req.nextUrl.origin
   if (isProtectedRoute(req)) await auth.protect()
-  if (!baseHost.includes(host as string) && reqPath.includes("/group")) {
+  if (baseHost.includes(host as string) && reqPath.includes("/group")) {
     const response = await fetch(`${origin}/api/domain?host=${host}`, {
       method: "GET",
       headers: {

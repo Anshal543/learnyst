@@ -5,16 +5,21 @@ export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams
     const host = searchParams.get("host")
-    if (host) {
-      const data = await client.group.findFirst({
-        where: {
-          domain: host,
-        },
-        select: {
-          domain: true,
-          id: true,
-        },
+    if (!host)
+      return NextResponse.json({
+        status: 404,
+        message: "No domain found for this group.",
       })
+    const data = await client.group.findFirst({
+      where: {
+        domain: host,
+      },
+      select: {
+        domain: true,
+        id: true,
+      },
+    })
+    if (data) {
       return NextResponse.json({ status: 200, domain: data })
     }
     return NextResponse.json({
