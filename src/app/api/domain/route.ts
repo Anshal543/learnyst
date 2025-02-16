@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
   try {
-    const host = req.nextUrl.host
+    const searchParams = req.nextUrl.searchParams
+    const host = searchParams.get("host")
 
     if (!host)
       return NextResponse.json({
