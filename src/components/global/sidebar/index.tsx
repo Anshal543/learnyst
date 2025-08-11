@@ -79,7 +79,10 @@ const SideBar = ({ groupid, userid, mobile }: Props) => {
               <div className="flex gap-x-3 items-center">
                 <img
                   // src={`https://ucarecdn.com/${groupInfo.group?.icon as string}/`}
-                  src={`${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${groupInfo.group?.icon as string}`}
+                  src={
+                    `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${groupInfo.group?.icon as string}` ||
+                    "no-im.png"
+                  }
                   alt="icon"
                   // width={20}
                   // height={20}
