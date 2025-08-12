@@ -1,4 +1,6 @@
 "use client"
+import { cn } from "@/lib/utils"
+import { ErrorMessage } from "@hookform/error-message"
 import {
   CharacterCount,
   EditorBubble,
@@ -14,16 +16,14 @@ import {
 import React, { useState } from "react"
 import { FieldErrors } from "react-hook-form"
 import { HtmlParser } from "../html-parser"
-import { cn } from "@/lib/utils"
-import { defaultExtensions } from "./extensions"
-import { slashCommand, suggestionItems } from "./slash-command"
-import { Video } from "./video"
-import { Image } from "./image"
-import NodeSelector from "./node-selector"
-import { LinkSelector } from "./link-selector"
-import { TextButtons } from "./text-selector"
 import { ColorSelector } from "./color-selector"
-import { ErrorMessage } from "@hookform/error-message"
+import { defaultExtensions } from "./extensions"
+import { Image } from "./image"
+import { LinkSelector } from "./link-selector"
+import NodeSelector from "./node-selector"
+import { slashCommand, suggestionItems } from "./slash-command"
+import { TextButtons } from "./text-selector"
+import { Video } from "./video"
 
 type Props = {
   content: JSONContent | undefined
@@ -112,7 +112,7 @@ const BlockTextEditor = ({
                 setCharacters(text.length)
               }}
             >
-              <EditorCommand className="z-50 h-auto max-h-[330px]  w-72 overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
+              <EditorCommand className="z-50  h-auto max-h-[330px]  w-72 overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
                 <EditorCommandEmpty className="px-2 text-muted-foreground">
                   No results
                 </EditorCommandEmpty>

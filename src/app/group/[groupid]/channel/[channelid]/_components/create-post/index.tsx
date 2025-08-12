@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription } from "@/components/ui/card"
 import { useChannelPage } from "@/hooks/channels"
 import React from "react"
 import { PostCard } from "../post-feed/post-card"
+import { CustomModal } from "@/components/global/custom-modal"
 
 type Props = { userImage: string; channelid: string; username: string }
 
@@ -14,7 +15,7 @@ const CreateNewPost = ({ channelid, userImage, username }: Props) => {
   const { name } = data as { name: string }
   return (
     <>
-      <SimpleModal
+      <CustomModal
         trigger={
           <span>
             <Card className="border-themeGray cursor-pointer first-letter:rounded-2xl overflow-hidden">
@@ -47,7 +48,7 @@ const CreateNewPost = ({ channelid, userImage, username }: Props) => {
           </div>
         </div>
         <PostContent channelid={channelid} />
-      </SimpleModal>
+      </CustomModal>
       {mutation.length > 0 &&
         mutation[0].status === "pending" &&
         mutation[0].state && (

@@ -72,7 +72,8 @@ export const SimpleModal = ({
       return (
         <Dialog>
           <DialogTrigger asChild>{trigger}</DialogTrigger>
-          <DialogContent className="bg-[#1C1C1E] !max-w-2xl border-themeGray">
+          <DialogContent className="bg-[#1C1C1E]  !max-w-2xl border-themeGray overflow-visible">
+            <DialogTitle>{""}</DialogTitle>
             {children}
           </DialogContent>
         </Dialog>
