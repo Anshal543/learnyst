@@ -4,12 +4,12 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Logout } from "@/icons"
 import GlassSheet from "@/components/global/glass-sheet"
-import { MenuIcon } from "lucide-react"
+import { MenuIcon, UserPlus } from "lucide-react"
 
 const LandingPageNavbar = () => {
   return (
     <div className="w-full flex justify-between sticky top-0 items-center py-5 z-50">
-      <p className="font-bold text-2xl">Grouple.</p>
+      <p className="font-bold text-2xl">Learnyst.</p>
       <Menu orientation="desktop" />
       <div className="flex gap-2">
         <Link href={"/sign-in"}>
@@ -20,6 +20,16 @@ const LandingPageNavbar = () => {
           >
             <Logout />
             Login
+          </Button>
+        </Link>
+        <Link href={"/sign-up"}>
+          <Button
+            variant={"outline"}
+            className="bg-themeBlack rounded-2xl flex  
+                        gap-2 border-themeGray hover:bg-themeGray"
+          >
+            <UserPlus/>
+            SignUp
           </Button>
         </Link>
         <GlassSheet

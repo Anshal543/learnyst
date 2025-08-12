@@ -232,3 +232,9 @@ html {
   height: 0;
   pointer-events: none;
 }
+
+
+.novel-dropdown {
+  position: relative;
+  z-index: 9999 !important;
+}

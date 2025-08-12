@@ -14,7 +14,7 @@ const CallToAction = () => {
         Bringing Communities <br className="md:hidden" /> Together
       </GradientText>
       <p className="text-sm md:text-center text-left text-muted-foreground">
-        Grouple is a vibrant online community platform that empowers
+        Learnyst is a vibrant online community platform that empowers
         <br className="md:hidden" />
         people to connect, <br className="hidden md:block" /> collaborate, and
         cultivate meaningful
@@ -22,12 +22,12 @@ const CallToAction = () => {
         relationships
       </p>
       <div className="flex md:flex-row flex-col md:justify-center gap-5 md:mt-5 w-full">
-        <Button
+        {/* <Button
           variant="outline"
           className="rounded-xl bg-transparent text-base"
         >
           Watch Demo
-        </Button>
+        </Button> */}
         <Link href="/sign-in">
           <Button className="rounded-xl  text-base flex gap-2 w-full">
             <BadgePlus /> Get Started

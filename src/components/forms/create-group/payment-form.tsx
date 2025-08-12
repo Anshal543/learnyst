@@ -62,7 +62,7 @@ const PaymentForm = ({ userId, affiliate, stripeId }: Props) => {
             placeholder="Group Name"
           />
         </div>
-        <div className="px-7 my-3">
+        {/* <div className="px-7 my-3">
           <CardElement
             options={{
               style: {
@@ -77,13 +77,13 @@ const PaymentForm = ({ userId, affiliate, stripeId }: Props) => {
             }}
             className="bg-themeBlack border-[1px] border-themeGray outline-none rounded-lg p-3"
           />
-        </div>
+        </div> */}
         <div className="px-7 flex flex-col gap-5">
-          <p className="text-sm text-themeTextGray">
+          {/* <p className="text-sm text-themeTextGray">
             Cancel anytime with 1-click. By clicking below, you accept
             our terms.
-          </p>
-          <Link className="text-sm text-themeTextGray" href={"/explore"}>
+          </p> */}
+          <Link className="text-sm mt-2 hover:underline text-themeTextGray" href={"/explore"}>
             Skip for now
           </Link>
           <Button

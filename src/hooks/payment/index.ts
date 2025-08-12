@@ -77,14 +77,15 @@ export const usePayments = (
       if (!stripe || !elements || !Intent) {
         return null
       }
-      const { error, paymentIntent: _ } = await stripe.confirmCardPayment(
-        Intent.secret!,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement) as StripeCardElement,
-          },
-        },
-      )
+      const error = true
+      // const { error, paymentIntent: _ } = await stripe.confirmCardPayment(
+      //   Intent.secret!,
+      //   {
+      //     payment_method: {
+      //       card: elements.getElement(CardElement) as StripeCardElement,
+      //     },
+      //   },
+      // )
       // if (error) {
       //     return toast("Error", {
       //         description: "Oops! something went wrong, try again later",

@@ -14,7 +14,7 @@ const AuthLayout = async ({ children }: Props) => {
   return (
     <div className="container h-screen flex justify-center items-center">
       <div className="flex flex-col w-full items-center py-24">
-        <h2 className="text-4xl font-bold text-themeTextWhite">Grouple.</h2>
+        <h2 className="text-4xl font-bold text-themeTextWhite">Learnyst.</h2>
         <BackdropGradient
           className="w-4/12 h-2/6 opacity-40"
           container="flex flex-col items-center"

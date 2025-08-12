@@ -23,8 +23,9 @@ const GroupSideWidget = ({ groupid, light, userid }: Props) => {
     >
       <img
         src={
-          `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${group.thumbnail}` ||
-          "/no-im.png"
+          group.thumbnail
+            ? `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${group.thumbnail}`
+            : "/no-im.png"
         }
         //  src={preview || `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${thumbnail}`}
         alt="thumbnail"

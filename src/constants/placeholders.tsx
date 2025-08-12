@@ -46,9 +46,9 @@ export const CREATE_GROUP_PLACEHOLDER: CreateGroupPlaceholderProps[] = [
     label: "Host unlimited courses",
     icon: <Courses />,
   },
-  {
-    id: "6",
-    label: "White-labeling options",
-    icon: <WhiteLabel />,
-  },
+  // {
+  //   id: "6",
+  //   label: "White-labeling options",
+  //   icon: <WhiteLabel />,
+  // },
 ]

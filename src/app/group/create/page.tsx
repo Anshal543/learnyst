@@ -21,11 +21,11 @@ const GroupCreatePage = async ({
     <>
       <div className="px-7 flex flex-col">
         <h5 className="font-bold text-base text-themeTextWhite">
-          Payment Method
+          Group Requirements
         </h5>
         <p className="text-themeTextGray leading-tight">
-          Free for 14 days, then $99/month. Cancel anytime.All features.
-          Unlimited everything. No hidden fees.
+          Select a category and enter the name of your group to get started.
+
         </p>
         {affiliate.status === 200 && (
           <div className="w-full mt-5 flex justify-center items-center gap-x-2 italic text-themeTextGray text-sm">

@@ -80,8 +80,9 @@ const SideBar = ({ groupid, userid, mobile }: Props) => {
                 <img
                   // src={`https://ucarecdn.com/${groupInfo.group?.icon as string}/`}
                   src={
-                    `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${groupInfo.group?.icon as string}` ||
-                    "no-im.png"
+                    groupInfo.group?.icon
+                      ? `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${groupInfo.group.icon}`
+                      : "/no-im.png"
                   }
                   alt="icon"
                   // width={20}
