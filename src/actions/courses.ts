@@ -74,7 +74,7 @@ export const onGetCourseModules = async (courseId: string) => {
         courseId,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
       include: {
         section: {

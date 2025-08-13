@@ -31,7 +31,7 @@ export const CreateCourseModule = ({
           className="text-themeGray cursor-pointer hover:text-themeTextGray/60"
         />
       </div>
-      {variables && isPending && (
+      {/* {variables && isPending && (
         <GlobalAccordion id={variables.moduleId} title={variables.title}>
           <Button
             variant="outline"
@@ -40,7 +40,7 @@ export const CreateCourseModule = ({
             <Plus />
           </Button>
         </GlobalAccordion>
-      )}
+      )} */}
     </div>
   )
 }

@@ -25,6 +25,8 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
     variables,
     pathname,
     isPending,
+    editingModuleId,
+    setEditingModuleId,
     groupOwner,
     sectionVariables,
     pendingSection,
@@ -43,7 +45,7 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
       {data?.status === 200 &&
         data.modules?.map((module) => (
           <GlobalAccordion
-            edit={edit}
+            edit={editingModuleId === module.id}
             ref={triggerRef}
             editable={
               <Input
@@ -51,10 +53,14 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
                 className="bg-themeBlack border-themeGray"
               />
             }
-            onEdit={() => onEditModule(module.id)}
+            onEdit={() => {
+              setEditingModuleId(module.id)
+              onEditModule(module.id)
+            }}
             id={module.id}
             key={module.id}
             title={isPending ? variables?.content! : module.title}
+            // title={isPending ? variables?.content! : module.title}
           >
             <AccordionContent className="flex flex-col gap-y-2 px-3">
               {module.section.length ? (

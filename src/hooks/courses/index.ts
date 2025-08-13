@@ -163,10 +163,10 @@ export const useCourseModule = (courseId: string, groupid: string) => {
   const sectionInputRef = useRef<HTMLInputElement | null>(null)
   const [edit, setEdit] = useState<boolean>(false)
   const [editSection, setEditSection] = useState<boolean>(false)
-  const [activeSection, setActiveSection] = useState<string | undefined>(
-    undefined,
-  )
+  const [activeSection, setActiveSection] = useState<string | undefined>(undefined,)
   const [moduleId, setModuleId] = useState<string | undefined>(undefined)
+  const [editingModuleId, setEditingModuleId] = useState<string | null>(null)
+
 
   const { data } = useQuery({
     queryKey: ["course-modules"],
@@ -185,7 +185,7 @@ export const useCourseModule = (courseId: string, groupid: string) => {
   const { variables, mutate, isPending } = useMutation({
     mutationFn: (data: { type: "NAME" | "DATA"; content: string }) =>
       onUpdateModule(moduleId!, data.type, data.content),
-    onMutate: () => setEdit(false),
+    onMutate: () => setEditingModuleId(null),
     onSuccess: (data) => {
       toast(data?.status === 200 ? "Success" : "Error", {
         description: data?.message,
@@ -250,6 +250,7 @@ export const useCourseModule = (courseId: string, groupid: string) => {
           })
         } else {
           setEdit(false)
+
         }
       }
     }
@@ -288,7 +289,7 @@ export const useCourseModule = (courseId: string, groupid: string) => {
   }, [activeSection])
 
   const onEditModule = (id: string) => {
-    setEdit(true)
+    setEditingModuleId(id)
     setModuleId(id)
   }
 
@@ -302,6 +303,8 @@ export const useCourseModule = (courseId: string, groupid: string) => {
     inputRef,
     variables,
     isPending,
+    editingModuleId,
+    setEditingModuleId,
     pathname,
     groupOwner,
     sectionVariables,
