@@ -68,12 +68,12 @@ export const GROUP_PAGE_MENU: MenuProps[] = [
     path: "#pricing",
     section: true,
   },
-  {
-    id: 2,
-    label: "Events",
-    icon: <Buisness />,
-    path: "/explore",
-  },
+  // {
+  //   id: 2,
+  //   label: "Events",
+  //   icon: <Buisness />,
+  //   path: "/explore",
+  // },
   {
     id: 3,
     label: "Members",
@@ -86,12 +86,12 @@ export const GROUP_PAGE_MENU: MenuProps[] = [
     icon: <Document />,
     path: "/explore",
   },
-  {
-    id: 5,
-    label: "Huddle",
-    icon: <Chat />,
-    path: "/explore",
-  },
+  // {
+  //   id: 5,
+  //   label: "Huddle",
+  //   icon: <Chat />,
+  //   path: "/explore",
+  // },
 ]
 
 export const SIDEBAR_SETTINGS_MENU: MenuProps[] = [
@@ -101,31 +101,31 @@ export const SIDEBAR_SETTINGS_MENU: MenuProps[] = [
     icon: <IDuotoneBlack />,
     path: "",
   },
-  {
-    id: 1,
-    label: "Subscriptions",
-    icon: <CreditCard />,
-    path: "subscriptions",
-  },
-  {
-    id: 2,
-    label: "Affiliates",
-    icon: <AffiliateDuoToneBlack />,
-    path: "affiliates",
-  },
-  {
-    id: 3,
-    label: "Domain Config",
-    icon: <GlobeDuoToneBlack />,
-    path: "domains",
-  },
-  {
-    id: 4,
-    label: "Integration",
-    icon: <ZapDouToneBlack />,
-    path: "integrations",
-    integration: true,
-  },
+  // {
+  //   id: 1,
+  //   label: "Subscriptions",
+  //   icon: <CreditCard />,
+  //   path: "subscriptions",
+  // },
+  // {
+  //   id: 2,
+  //   label: "Affiliates",
+  //   icon: <AffiliateDuoToneBlack />,
+  //   path: "affiliates",
+  // },
+  // {
+  //   id: 3,
+  //   label: "Domain Config",
+  //   icon: <GlobeDuoToneBlack />,
+  //   path: "domains",
+  // },
+  // {
+  //   id: 4,
+  //   label: "Integration",
+  //   icon: <ZapDouToneBlack />,
+  //   path: "integrations",
+  //   integration: true,
+  // },
 ]
 
 type IntegrationsListItemProps = {

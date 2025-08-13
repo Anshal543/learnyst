@@ -51,9 +51,9 @@ export const onGetActiveSubscription = async (groupId: string) => {
       },
     })
 
-    if (subscription) {
+    // if (subscription) {
       return { status: 200, subscription }
-    }
+    // }
   } catch (error) {
     return { status: 404 }
   }

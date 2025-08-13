@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { truncateString } from "@/lib/utils"
 import Link from "next/link"
-import React from "react"
 
 type Props = {
   id: string
@@ -30,8 +29,11 @@ const GroupCard = ({
       <Card className="bg-themeBlack border-themeGray rounded-xl overflow-hidden">
         <img
           src={
-            preview ||
-            `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${thumbnail}`
+            preview
+              ? preview
+              : thumbnail
+                ? `${process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL}/${thumbnail}`
+                : "/no-im.png"
           }
           // src={preview || `https://ucarecdn.com/${thumbnail}/`}
           alt="thumbnail"
