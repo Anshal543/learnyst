@@ -1,5 +1,7 @@
 "use server"
 import { client } from "@/lib/prisma"
+import { v4 } from "uuid"
+import { onAuthenticatedUser } from "./auth"
 
 export const onGetGroupCourses = async (groupid: string) => {
   try {
@@ -68,6 +70,7 @@ export const onCreateGroupCourse = async (
 }
 
 export const onGetCourseModules = async (courseId: string) => {
+  const user = await onAuthenticatedUser()
   try {
     const modules = await client.module.findMany({
       where: {
@@ -80,6 +83,11 @@ export const onGetCourseModules = async (courseId: string) => {
         section: {
           orderBy: {
             createdAt: "asc",
+          },
+          include: {
+            SectionProgress: {
+              where: { userId: user.id }, // filter only current user's progress
+            },
           },
         },
       },
@@ -205,6 +213,44 @@ export const onUpdateSection = async (
   }
 }
 
+export const onCreateUpdateSectionProgress = async (sectionId: string) => {
+  try {
+    const user = await onAuthenticatedUser()
+    if (!user) {
+      return { status: 401, message: "Unauthorized" }
+    }
+
+    // Upsert SectionProgress for the user and section
+    if (!user.id) {
+      return { status: 401, message: "Unauthorized" }
+    }
+    const progress = await client.sectionProgress.upsert({
+      where: {
+        userId_sectionId: {
+          userId: user.id,
+          sectionId,
+        },
+      },
+      update: {
+        complete: true,
+      },
+      create: {
+        id: v4(),
+        userId: user.id,
+        sectionId,
+        complete: true,
+      },
+    })
+
+    if (progress) {
+      return { status: 200, message: "Progress successfully updated" }
+    }
+
+    return { status: 404, message: "Section not found" }
+  } catch (error) {
+    return { status: 500, message: "Something went wrong!" }
+  }
+}
 export const onCreateModuleSection = async (
   moduleId: string,
   sectionid: string,
@@ -243,6 +289,40 @@ export const onGetSectionInfo = async (sectionid: string) => {
 
     if (section) {
       return { status: 200, section }
+    }
+
+    return { status: 404, message: "Course section not found" }
+  } catch (error) {
+    return { status: 400, message: "Oops! something went wrong" }
+  }
+}
+export const onGetSectionProgressInfo = async (sectionid: string) => {
+  const user = await onAuthenticatedUser()
+  // console.log("useridd.....",user)
+  try {
+    const section = await client.section.findUnique({
+      where: {
+        id: sectionid,
+      },
+      include: {
+        SectionProgress: {
+          where: {
+            sectionId: sectionid,
+            userId: user.id,
+          },
+        },
+      },
+    })
+    console.log("section progress", section)
+    if (section) {
+      return {
+        status: 200,
+        section,
+        // : {
+        //   ...section,
+        //   complete: section?.SectionProgress[0].complete,
+        // },
+      }
     }
 
     return { status: 404, message: "Course section not found" }

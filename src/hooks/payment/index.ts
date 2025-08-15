@@ -1,7 +1,9 @@
 "use client"
 import {
   onCreateNewGroup,
+  onGetAllGroupMembers,
   onGetGroupChannels,
+  onGetGroupMembers,
   onGetGroupSubscriptions,
   onJoinGroup,
 } from "@/actions/groups"
@@ -131,6 +133,15 @@ export const useActiveGroupSubscription = (groupId: string) => {
   const { data } = useQuery({
     queryKey: ["active-subscription"],
     queryFn: () => onGetActiveSubscription(groupId),
+  })
+
+  return { data }
+}
+
+export const useGetGroupMembers = (groupId: string) => {
+  const { data } = useQuery({
+    queryKey: ["group-members", groupId],
+    queryFn: () => onGetGroupMembers(groupId),
   })
 
   return { data }

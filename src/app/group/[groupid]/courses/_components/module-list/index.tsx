@@ -73,7 +73,7 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
                     key={section.id}
                     href={`/group/${groupid}/courses/${courseId}/${section.id}`}
                   >
-                    {section.complete ? <PurpleCheck /> : <EmptyCircle />}
+                    {section.SectionProgress[0]?.complete ? <PurpleCheck /> : <EmptyCircle />}
                     <IconRenderer
                       icon={section.icon}
                       mode={

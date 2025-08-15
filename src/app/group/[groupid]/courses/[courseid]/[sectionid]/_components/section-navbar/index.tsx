@@ -9,6 +9,7 @@ type Props = {
 
 const SectionNavBar = ({ sectionid }: Props) => {
   const { data, mutate, isPending } = useSectionNavBar(sectionid)
+  // console.log("data status", data)
 
   if (data?.status !== 200) return <></>
 
@@ -29,7 +30,7 @@ const SectionNavBar = ({ sectionid }: Props) => {
           <Check size={16} />
           {isPending
             ? "Completed"
-            : !data.section?.complete
+            : !data.section?.SectionProgress[0].complete
               ? "Mark as complete"
               : "Completed"}
         </Button>

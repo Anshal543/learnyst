@@ -155,6 +155,18 @@ model Section {
   content     String?
   htmlContent String?
   JsonContent String?
+
+  SectionProgress SectionProgress[] // Opposite relation field
+}
+
+model SectionProgress {
+  id        String  @id @db.Uuid
+  userId    String  @db.Uuid
+  section   Section @relation(fields: [sectionId], references: [id])
+  sectionId String  @db.Uuid
+  complete  Boolean @default(false)
+
+  @@unique([userId, sectionId]) // so one row per user per section
 }
 
 model Affiliate {

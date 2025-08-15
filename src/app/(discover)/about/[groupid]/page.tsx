@@ -35,7 +35,7 @@ const Page = async ({ params }: Props) => {
           <AboutGroup userid={userid.id!} groupid={groupid} />
         </div>
         <div className="col-span-1 relative">
-          <GroupSideWidget userid={userid.id} groupid={groupid} />
+          <GroupSideWidget userid={userid.id!} groupid={groupid} />
         </div>
       </div>
     </HydrationBoundary>

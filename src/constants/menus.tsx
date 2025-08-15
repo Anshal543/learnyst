@@ -74,12 +74,12 @@ export const GROUP_PAGE_MENU: MenuProps[] = [
   //   icon: <Buisness />,
   //   path: "/explore",
   // },
-  {
-    id: 3,
-    label: "Members",
-    icon: <PersonalDevelopment />,
-    path: "/explore",
-  },
+  // {
+  //   id: 3,
+  //   label: "Members",
+  //   icon: <PersonalDevelopment />,
+  //   path: "/explore",
+  // },
   {
     id: 4,
     label: "About",

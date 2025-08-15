@@ -1,4 +1,4 @@
-import { onGetSectionInfo } from "@/actions/courses"
+import { onGetSectionInfo, onGetSectionProgressInfo } from "@/actions/courses"
 import {
   dehydrate,
   HydrationBoundary,
@@ -23,6 +23,10 @@ const CourseContentPageLayout = async ({
   await client.prefetchQuery({
     queryKey: ["section-info"],
     queryFn: () => onGetSectionInfo(sectionid),
+  })
+  await client.prefetchQuery({
+    queryKey: ["section-info-progress"],
+    queryFn: () => onGetSectionProgressInfo(sectionid),
   })
 
   return (

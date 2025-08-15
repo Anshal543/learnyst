@@ -3,9 +3,11 @@ import {
   onCreateCourseModule,
   onCreateGroupCourse,
   onCreateModuleSection,
+  onCreateUpdateSectionProgress,
   onGetCourseModules,
   onGetGroupCourses,
   onGetSectionInfo,
+  onGetSectionProgressInfo,
   onUpdateCourseSectionContent,
   onUpdateModule,
   onUpdateSection,
@@ -163,10 +165,11 @@ export const useCourseModule = (courseId: string, groupid: string) => {
   const sectionInputRef = useRef<HTMLInputElement | null>(null)
   const [edit, setEdit] = useState<boolean>(false)
   const [editSection, setEditSection] = useState<boolean>(false)
-  const [activeSection, setActiveSection] = useState<string | undefined>(undefined,)
+  const [activeSection, setActiveSection] = useState<string | undefined>(
+    undefined,
+  )
   const [moduleId, setModuleId] = useState<string | undefined>(undefined)
   const [editingModuleId, setEditingModuleId] = useState<string | null>(null)
-
 
   const { data } = useQuery({
     queryKey: ["course-modules"],
@@ -250,7 +253,6 @@ export const useCourseModule = (courseId: string, groupid: string) => {
           })
         } else {
           setEdit(false)
-
         }
       }
     }
@@ -323,14 +325,14 @@ export const useCourseModule = (courseId: string, groupid: string) => {
 
 export const useSectionNavBar = (sectionid: string) => {
   const { data } = useQuery({
-    queryKey: ["section-info"],
-    queryFn: () => onGetSectionInfo(sectionid),
+    queryKey: ["section-info-progress"],
+    queryFn: () => onGetSectionProgressInfo(sectionid),
   })
 
   const client = useQueryClient()
 
   const { isPending, mutate } = useMutation({
-    mutationFn: () => onUpdateSection(sectionid, "COMPLETE", ""),
+    mutationFn: () => onCreateUpdateSectionProgress(sectionid),
     onSuccess: (data) => {
       toast(data.status === 200 ? "Success" : "Error", {
         description: data.message,
