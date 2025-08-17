@@ -290,12 +290,20 @@ export const useCourseModule = (courseId: string, groupid: string) => {
     }
   }, [activeSection])
 
-  const onEditModule = (id: string) => {
+const onEditModule = (id: string) => {
+  if (groupOwner?.groupOwner) {   // only owner can edit
     setEditingModuleId(id)
     setModuleId(id)
   }
+}
 
-  const onEditSection = () => setEditSection(true)
+const onEditSection = () => {
+  if (groupOwner?.groupOwner) {   // only owner can edit
+    setEditSection(true)
+  }
+}
+
+  // const onEditSection = () => setEditSection(true)
 
   return {
     data,

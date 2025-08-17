@@ -30,7 +30,7 @@ const SectionNavBar = ({ sectionid }: Props) => {
           <Check size={16} />
           {isPending
             ? "Completed"
-            : !data.section?.SectionProgress[0].complete
+            : !data.section?.SectionProgress[0]?.complete
               ? "Mark as complete"
               : "Completed"}
         </Button>

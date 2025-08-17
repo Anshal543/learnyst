@@ -48,14 +48,19 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
             edit={editingModuleId === module.id}
             ref={triggerRef}
             editable={
-              <Input
-                ref={inputRef}
-                className="bg-themeBlack border-themeGray"
-              />
+              groupOwner?.groupOwner && ( // only show Input for owners
+                <Input
+                  ref={inputRef}
+                  className="bg-themeBlack border-themeGray"
+                />
+              )
             }
             onEdit={() => {
-              setEditingModuleId(module.id)
-              onEditModule(module.id)
+              if (groupOwner?.groupOwner) {
+                // prevent edit for non-owner
+                setEditingModuleId(module.id)
+                onEditModule(module.id)
+              }
             }}
             id={module.id}
             key={module.id}
@@ -67,13 +72,19 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
                 module.section.map((section) => (
                   <Link
                     ref={contentRef}
-                    onDoubleClick={onEditSection}
+                    onDoubleClick={() =>
+                      groupOwner?.groupOwner && onEditSection()
+                    }
                     onClick={() => setActiveSection(section.id)}
                     className="flex gap-x-3 items-center capitalize"
                     key={section.id}
                     href={`/group/${groupid}/courses/${courseId}/${section.id}`}
                   >
-                    {section.SectionProgress[0]?.complete ? <PurpleCheck /> : <EmptyCircle />}
+                    {section.SectionProgress[0]?.complete ? (
+                      <PurpleCheck />
+                    ) : (
+                      <EmptyCircle />
+                    )}
                     <IconRenderer
                       icon={section.icon}
                       mode={
@@ -82,7 +93,9 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
                           : "DARK"
                       }
                     />
-                    {editSection && activeSection === section.id ? (
+                    {editSection &&
+                    activeSection === section.id &&
+                    groupOwner?.groupOwner ? (
                       <Input
                         ref={sectionInputRef}
                         className="flex-1 bg-transparent border-none p-0"

@@ -64,7 +64,7 @@ const CourseCreate = ({ groupid }: Props) => {
             label="Course Description"
           />
           <div className="grid gap-2 grid-cols-3">
-            <Label className="col-span-3">Course Permissions</Label>
+            <Label className="col-span-3 hidden">Course Permissions</Label>
             <Label htmlFor="r1">
               <span>
                 <Input
@@ -77,7 +77,7 @@ const CourseCreate = ({ groupid }: Props) => {
                 <Card
                   className={cn(
                     onPrivacy === "open" ? "bg-themeBlack" : " bg-transparent",
-                    "py-5 flex justify-center border-themeGray font-bold text-themeTextGray cursor-pointer",
+                    "py-5 flex justify-center hidden border-themeGray font-bold text-themeTextGray cursor-pointer",
                   )}
                 >
                   Open
@@ -98,7 +98,7 @@ const CourseCreate = ({ groupid }: Props) => {
                     onPrivacy === "level-unlock"
                       ? "bg-themeBlack"
                       : " bg-transparent",
-                    "py-5 flex justify-center border-themeGray font-bold text-themeTextGray cursor-pointer",
+                    "py-5 flex justify-center hidden border-themeGray font-bold text-themeTextGray cursor-pointer",
                   )}
                 >
                   Level Unlock
@@ -119,7 +119,7 @@ const CourseCreate = ({ groupid }: Props) => {
                     onPrivacy === "private"
                       ? "bg-themeBlack"
                       : "bg-transparent",
-                    "py-5 flex justify-center border-themeGray font-bold text-themeTextGray cursor-pointer",
+                    "py-5 flex justify-center hidden border-themeGray font-bold text-themeTextGray cursor-pointer",
                   )}
                 >
                   Private
@@ -164,9 +164,9 @@ const CourseCreate = ({ groupid }: Props) => {
             <Switch
               id="publish-mode"
               onCheckedChange={(e) => setValue("published", e)}
-              className="data-[state=checked]:bg-themeTextGray data-[state=unchecked]:bg-themeGray"
+              className="data-[state=checked]:bg-themeTextGray hidden data-[state=unchecked]:bg-themeGray"
             />
-            <Label htmlFor="publish-mode">Publish Course</Label>
+            <Label htmlFor="publish-mode" className="hidden">Publish Course</Label>
           </div>
           <Button
             type="submit"
