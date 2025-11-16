@@ -83,7 +83,10 @@ const PaymentForm = ({ userId, affiliate, stripeId }: Props) => {
             Cancel anytime with 1-click. By clicking below, you accept
             our terms.
           </p> */}
-          <Link className="text-sm mt-2 hover:underline text-themeTextGray" href={"/explore"}>
+          <Link
+            className="text-sm mt-2 hover:underline text-themeTextGray"
+            href={"/explore"}
+          >
             Skip for now
           </Link>
           <Button

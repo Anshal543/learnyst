@@ -86,29 +86,28 @@ export const GroupDropDown = ({ groups, members }: GroupDropDownProps) => {
           </Link>
         ))} */}
 
-        {members &&
-  members.length > 0 &&
-  members
-    .filter(
-      (member) =>
-        member.Group &&
-        !userGroups?.some((g) => g.id === member.Group?.id)
-    )
-    .map((member) => (
-      <Link
-        key={member.Group?.id}
-        href={`/group/${member.Group?.id}/channel/${member.Group?.channel[0].id}`}
-      >
-        <Button
-          variant="ghost"
-          className="flex gap-2 w-full justify-start hover:bg-themeGray items-center"
-        >
-          <Group />
-          {member.Group?.name}
-        </Button>
-      </Link>
-    ))}
-
+      {members &&
+        members.length > 0 &&
+        members
+          .filter(
+            (member) =>
+              member.Group &&
+              !userGroups?.some((g) => g.id === member.Group?.id),
+          )
+          .map((member) => (
+            <Link
+              key={member.Group?.id}
+              href={`/group/${member.Group?.id}/channel/${member.Group?.channel[0].id}`}
+            >
+              <Button
+                variant="ghost"
+                className="flex gap-2 w-full justify-start hover:bg-themeGray items-center"
+              >
+                <Group />
+                {member.Group?.name}
+              </Button>
+            </Link>
+          ))}
     </DropDown>
   )
 }

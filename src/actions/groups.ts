@@ -261,7 +261,7 @@ export const onGetAllGroupMembers = async (groupid: string) => {
   }
 }
 
-export const onGetGroupMembers = async (groupid: string)=>{
+export const onGetGroupMembers = async (groupid: string) => {
   // get all the members except the owner of group
   try {
     const members = await client.members.findMany({
@@ -743,7 +743,7 @@ export const onGetPostComments = async (postid: string) => {
     })
 
     // if (comments && comments.length > 0) {
-      return { status: 200, comments }
+    return { status: 200, comments }
     // }
   } catch (error) {
     return { status: 400 }

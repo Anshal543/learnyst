@@ -25,7 +25,6 @@ const GroupCreatePage = async ({
         </h5>
         <p className="text-themeTextGray leading-tight">
           Select a category and enter the name of your group to get started.
-
         </p>
         {affiliate.status === 200 && (
           <div className="w-full mt-5 flex justify-center items-center gap-x-2 italic text-themeTextGray text-sm">

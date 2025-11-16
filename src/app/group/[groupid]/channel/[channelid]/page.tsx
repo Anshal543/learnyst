@@ -39,7 +39,7 @@ const GroupChannelPage = async ({ params }: Props) => {
     <HydrationBoundary state={dehydrate(client)}>
       <div className="grid lg:grid-cols-3 grid-cols-1 w-full flex-1 h-0 gap-x-5 px-5 s">
         {/* <div className="col-span-1 lg:inline relative hidden py-5"> */}
-          {/* <LeaderBoardCard light /> */}
+        {/* <LeaderBoardCard light /> */}
         {/* </div> */}
         <div className="lg:col-span-2 flex flex-col gap-y-5 py-5">
           <Menu orientation="desktop" />

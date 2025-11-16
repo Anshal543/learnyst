@@ -166,7 +166,9 @@ const CourseCreate = ({ groupid }: Props) => {
               onCheckedChange={(e) => setValue("published", e)}
               className="data-[state=checked]:bg-themeTextGray hidden data-[state=unchecked]:bg-themeGray"
             />
-            <Label htmlFor="publish-mode" className="hidden">Publish Course</Label>
+            <Label htmlFor="publish-mode" className="hidden">
+              Publish Course
+            </Label>
           </div>
           <Button
             type="submit"

@@ -198,7 +198,6 @@ export const useSearch = (search: "GROUPS" | "POSTS") => {
   return { query, onSearchQuery }
 }
 
-
 export const useGroupSettings = (groupid: string) => {
   const { data } = useQuery({
     queryKey: ["group-info"],

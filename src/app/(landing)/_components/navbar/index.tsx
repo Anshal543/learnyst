@@ -28,7 +28,7 @@ const LandingPageNavbar = () => {
             className="bg-themeBlack rounded-2xl flex  
                         gap-2 border-themeGray hover:bg-themeGray"
           >
-            <UserPlus/>
+            <UserPlus />
             SignUp
           </Button>
         </Link>
