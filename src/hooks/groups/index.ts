@@ -767,7 +767,7 @@ export const useCustomDomain = (groupid: string) => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: { domain: string }) =>
       onAddCustomDomain(groupid, data.domain),
-    onMutate: reset,
+    onMutate: () => reset(),
     onSuccess: (data) => {
       return toast(data.status === 200 ? "Success" : "Error", {
         description: data.message,

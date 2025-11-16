@@ -58,7 +58,7 @@ export interface IGroups {
 
 const SideBar = ({ groupid, userid, mobile }: Props) => {
   const { groupInfo, groups, mutate, variables, isPending, channels } =
-    useSideBar(groupid)
+    useSideBar(groupid,userid)
   useGroupChatOnline(userid)
   let href = ""
   if (channels && channels.channels?.[0].id) {

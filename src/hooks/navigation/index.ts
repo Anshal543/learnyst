@@ -1,5 +1,5 @@
 import { onCreateNewChannel } from "@/actions/channels"
-import { onGetGroupChannels } from "@/actions/groups"
+import { onGetGroupChannels, onGetGroupInfo, onGetUserGroups } from "@/actions/groups"
 import { IGroupInfo, IGroups } from "@/components/global/sidebar"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
@@ -13,13 +13,15 @@ export const useNavigation = () => {
   return { section, onSetSection }
 }
 
-export const useSideBar = (groupid: string) => {
+export const useSideBar = (groupid: string,userid:string) => {
   const { data: groups } = useQuery({
     queryKey: ["user-groups"],
+    queryFn: () => onGetUserGroups(userid),
   }) as { data: IGroups }
 
   const { data: groupInfo } = useQuery({
     queryKey: ["group-info"],
+    queryFn: () => onGetGroupInfo(groupid),
   }) as { data: IGroupInfo }
 
   const { data: channels } = useQuery({
